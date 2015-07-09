@@ -32,11 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="InputManager">
-      <HintPath>..\..\..\..\..\Downloads\InputManager\InputManager.dll</HintPath>
+    <Reference Include="InputManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\InputManager.dll</HintPath>
     </Reference>
-    <Reference Include="Midi">
-      <HintPath>..\..\..\..\..\Downloads\midi-dot-net_1.1.0\midi-dot-net_1.1.0\Midi.dll</HintPath>
+    <Reference Include="Midi, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\Midi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,6 +58,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardDriver.cs" />
+    <Compile Include="MidiKeyboardInputDriver.cs" />
+    <Compile Include="MultiBoxDriver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

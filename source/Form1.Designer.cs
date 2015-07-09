@@ -13,7 +13,7 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            kill = true;
+            
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -55,9 +55,10 @@
             // 
             // nudDelayTuner
             // 
-            this.nudDelayTuner.Location = new System.Drawing.Point(157, 214);
+            this.nudDelayTuner.Location = new System.Drawing.Point(118, 174);
+            this.nudDelayTuner.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nudDelayTuner.Name = "nudDelayTuner";
-            this.nudDelayTuner.Size = new System.Drawing.Size(124, 22);
+            this.nudDelayTuner.Size = new System.Drawing.Size(93, 20);
             this.nudDelayTuner.TabIndex = 0;
             this.nudDelayTuner.Value = new decimal(new int[] {
             30,
@@ -77,18 +78,19 @@
             "G",
             "A",
             "B"});
-            this.comboBox1.Location = new System.Drawing.Point(152, 81);
+            this.comboBox1.Location = new System.Drawing.Point(114, 66);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 24);
+            this.comboBox1.Size = new System.Drawing.Size(92, 21);
             this.comboBox1.TabIndex = 1;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // cbFlat
             // 
             this.cbFlat.AutoSize = true;
-            this.cbFlat.Location = new System.Drawing.Point(82, 220);
+            this.cbFlat.Location = new System.Drawing.Point(62, 179);
+            this.cbFlat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbFlat.Name = "cbFlat";
-            this.cbFlat.Size = new System.Drawing.Size(53, 21);
+            this.cbFlat.Size = new System.Drawing.Size(43, 17);
             this.cbFlat.TabIndex = 2;
             this.cbFlat.Text = "Flat";
             this.cbFlat.UseVisualStyleBackColor = true;
@@ -96,9 +98,10 @@
             // cbFlute
             // 
             this.cbFlute.AutoSize = true;
-            this.cbFlute.Location = new System.Drawing.Point(82, 166);
+            this.cbFlute.Location = new System.Drawing.Point(62, 135);
+            this.cbFlute.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbFlute.Name = "cbFlute";
-            this.cbFlute.Size = new System.Drawing.Size(70, 21);
+            this.cbFlute.Size = new System.Drawing.Size(57, 17);
             this.cbFlute.TabIndex = 3;
             this.cbFlute.Text = "fLUTE";
             this.cbFlute.UseVisualStyleBackColor = true;
@@ -106,77 +109,80 @@
             // cbBass
             // 
             this.cbBass.AutoSize = true;
-            this.cbBass.Location = new System.Drawing.Point(82, 193);
+            this.cbBass.Location = new System.Drawing.Point(62, 157);
+            this.cbBass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbBass.Name = "cbBass";
-            this.cbBass.Size = new System.Drawing.Size(61, 21);
+            this.cbBass.Size = new System.Drawing.Size(49, 17);
             this.cbBass.TabIndex = 4;
             this.cbBass.Text = "Bass";
             this.cbBass.UseVisualStyleBackColor = true;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(191, 166);
+            this.pictureBox1.Location = new System.Drawing.Point(143, 135);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(79, 70);
+            this.pictureBox1.Size = new System.Drawing.Size(59, 57);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
             // timer1
             // 
             this.timer1.Interval = 300;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // nudCapx
             // 
-            this.nudCapx.Location = new System.Drawing.Point(12, 192);
+            this.nudCapx.Location = new System.Drawing.Point(9, 156);
+            this.nudCapx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nudCapx.Maximum = new decimal(new int[] {
             1980,
             0,
             0,
             0});
             this.nudCapx.Name = "nudCapx";
-            this.nudCapx.Size = new System.Drawing.Size(58, 22);
+            this.nudCapx.Size = new System.Drawing.Size(44, 20);
             this.nudCapx.TabIndex = 6;
             this.nudCapx.Value = new decimal(new int[] {
             20,
             0,
             0,
             0});
-            this.nudCapx.ValueChanged += new System.EventHandler(this.nudCapx_ValueChanged);
             // 
             // nudCapy
             // 
-            this.nudCapy.Location = new System.Drawing.Point(12, 220);
+            this.nudCapy.Location = new System.Drawing.Point(9, 179);
+            this.nudCapy.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nudCapy.Maximum = new decimal(new int[] {
             1800,
             0,
             0,
             0});
             this.nudCapy.Name = "nudCapy";
-            this.nudCapy.Size = new System.Drawing.Size(55, 22);
+            this.nudCapy.Size = new System.Drawing.Size(41, 20);
             this.nudCapy.TabIndex = 7;
             this.nudCapy.Value = new decimal(new int[] {
             20,
             0,
             0,
             0});
-            this.nudCapy.ValueChanged += new System.EventHandler(this.nudCapy_ValueChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(163, 192);
+            this.label1.Location = new System.Drawing.Point(122, 156);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "label1";
             // 
             // cbConnect
             // 
             this.cbConnect.AutoSize = true;
-            this.cbConnect.Location = new System.Drawing.Point(152, 12);
+            this.cbConnect.Location = new System.Drawing.Point(114, 10);
+            this.cbConnect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbConnect.Name = "cbConnect";
-            this.cbConnect.Size = new System.Drawing.Size(117, 21);
+            this.cbConnect.Size = new System.Drawing.Size(93, 17);
             this.cbConnect.TabIndex = 9;
             this.cbConnect.Text = "Connect Input";
             this.cbConnect.UseVisualStyleBackColor = true;
@@ -186,64 +192,69 @@
             // 
             this.cbInputDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbInputDevice.FormattingEnabled = true;
-            this.cbInputDevice.Location = new System.Drawing.Point(12, 10);
+            this.cbInputDevice.Location = new System.Drawing.Point(9, 8);
+            this.cbInputDevice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbInputDevice.Name = "cbInputDevice";
-            this.cbInputDevice.Size = new System.Drawing.Size(121, 24);
+            this.cbInputDevice.Size = new System.Drawing.Size(92, 21);
             this.cbInputDevice.TabIndex = 10;
             // 
             // cbOutputDevice
             // 
             this.cbOutputDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbOutputDevice.FormattingEnabled = true;
-            this.cbOutputDevice.Location = new System.Drawing.Point(12, 40);
+            this.cbOutputDevice.Location = new System.Drawing.Point(9, 32);
+            this.cbOutputDevice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbOutputDevice.Name = "cbOutputDevice";
-            this.cbOutputDevice.Size = new System.Drawing.Size(121, 24);
+            this.cbOutputDevice.Size = new System.Drawing.Size(92, 21);
             this.cbOutputDevice.TabIndex = 11;
             // 
             // cbConnectOutput
             // 
             this.cbConnectOutput.AutoSize = true;
-            this.cbConnectOutput.Location = new System.Drawing.Point(152, 42);
+            this.cbConnectOutput.Location = new System.Drawing.Point(114, 34);
+            this.cbConnectOutput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbConnectOutput.Name = "cbConnectOutput";
-            this.cbConnectOutput.Size = new System.Drawing.Size(129, 21);
+            this.cbConnectOutput.Size = new System.Drawing.Size(101, 17);
             this.cbConnectOutput.TabIndex = 12;
             this.cbConnectOutput.Text = "Connect Output";
             this.cbConnectOutput.UseVisualStyleBackColor = true;
-            this.cbConnectOutput.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.cbConnectOutput.CheckedChanged += new System.EventHandler(this.cbConnectOutput_CheckedChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 84);
+            this.label2.Location = new System.Drawing.Point(16, 68);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(109, 17);
+            this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 13;
             this.label2.Text = "Auto Transpose";
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(153, 126);
+            this.checkBox1.Location = new System.Drawing.Point(115, 102);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(121, 21);
+            this.checkBox1.Size = new System.Drawing.Size(95, 17);
             this.checkBox1.TabIndex = 14;
             this.checkBox1.Text = "Connect Client";
             this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged_1);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(24, 124);
+            this.textBox1.Location = new System.Drawing.Point(18, 101);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.Size = new System.Drawing.Size(76, 20);
             this.textBox1.TabIndex = 15;
             this.textBox1.Text = "192.168.1.4";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.ClientSize = new System.Drawing.Size(212, 206);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label2);
@@ -260,6 +271,7 @@
             this.Controls.Add(this.cbFlat);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.nudDelayTuner);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Midi Keyboarder";
             this.Load += new System.EventHandler(this.Form1_Load);
