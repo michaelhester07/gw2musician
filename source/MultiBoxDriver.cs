@@ -12,6 +12,33 @@ namespace midiKeyboarder
         
         System.Net.Sockets.TcpClient xclient;
         System.Net.Sockets.TcpListener server;
+
+        public void connectClient(string ip, int port)
+        {
+            xclient = new System.Net.Sockets.TcpClient(ip, port);
+            
+        }
+        public void sendMsg(string msg)
+        {
+            if(xclient != null)
+            {
+                if(xclient.Connected)
+                {
+                    xclient.GetStream().Write(ASCIIEncoding.ASCII.GetBytes(msg), 0, msg.Length);
+                }
+
+            }
+
+        }
+        public void closeConnection()
+        {
+            if (xclient != null)
+                if (xclient.Connected)
+                    xclient.Close();
+
+        }
+
+
         public void start(int port)
         {
           server  = new System.Net.Sockets.TcpListener(port);

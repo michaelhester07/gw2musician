@@ -14,14 +14,6 @@ namespace midiKeyboarder
     {
 
        
-        
-       
-
-
-      
-
-        Midi.OutputDevice od;
-      
 
 
         KeyboardDriver gw2KeyDriver;
@@ -53,12 +45,12 @@ namespace midiKeyboarder
             if (cbInputDevice.Items.Count == 0)
             {
                 cbConnect.Enabled = false;
-                label1.Text = "No midi input device found! app will not work!";
+                
             }
             if (cbOutputDevice.Items.Count == 0)
                 cbConnectOutput.Enabled = false;
-           
-           
+
+            mbDriver = new MultiBoxDriver();
             
         }
 
@@ -96,7 +88,15 @@ namespace midiKeyboarder
         void inputDriver_NoteOnString(string note)
         {
            // throw new NotImplementedException();
-            gw2KeyDriver.play(note);
+            //note:  "ASharp4"
+            // "G3"
+            //bass notes:  C1 through B2
+            //Treble notes:  C3 through C6
+            int octave = int.Parse(""+note[note.Length - 1]);
+            if (octave < 3)
+                mbDriver.sendMsg(note);
+            else
+                gw2KeyDriver.play(note);
 
         }
 
@@ -123,7 +123,42 @@ namespace midiKeyboarder
         private void Form1_Load(object sender, EventArgs e)
         {
             gw2KeyDriver = new KeyboardDriver();
+            gw2KeyDriver.targetKey = "C";
+            gw2KeyDriver.bass = false;
+            gw2KeyDriver.flute = false;
+            gw2KeyDriver.flat = false;
+            gw2KeyDriver.transposeDirection = 0;
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gw2KeyDriver.targetKey = (string)comboBox1.SelectedItem;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+                mbDriver.connectClient(tbIpAddress.Text, (int)nudPort.Value);
+            else
+                mbDriver.closeConnection();
+        }
+
+        private void cbRunServer_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbRunServer.Checked)
+            {
+                mbDriver.start((int)nudPort.Value);
+                mbDriver.keybddriver = gw2KeyDriver;
+
+            }
+            else
+                mbDriver.stop();
+        }
+
+        private void cbFlat_CheckedChanged(object sender, EventArgs e)
+        {
+            gw2KeyDriver.flat = cbFlat.Checked;
         }
        
         

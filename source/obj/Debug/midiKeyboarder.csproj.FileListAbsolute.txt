@@ -18,7 +18,6 @@ C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.exe
 C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.pdb
 C:\Users\hester\Documents\GitHub\gw2musician\source\bin\Debug\midiKeyboarder.exe
 C:\Users\hester\Documents\GitHub\gw2musician\source\bin\Debug\midiKeyboarder.pdb
-C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csprojResolveAssemblyReference.cache
 C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Form1.resources
 C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Properties.Resources.resources
 C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csproj.GenerateResource.Cache
