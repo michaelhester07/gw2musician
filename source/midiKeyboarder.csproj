@@ -58,13 +58,24 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="instrument.cs" />
+    <Compile Include="instrumentPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="instrumentPanel.Designer.cs">
+      <DependentUpon>instrumentPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="KeyboardDriver.cs" />
     <Compile Include="MidiKeyboardInputDriver.cs" />
     <Compile Include="MultiBoxDriver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="section.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="instrumentPanel.resx">
+      <DependentUpon>instrumentPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

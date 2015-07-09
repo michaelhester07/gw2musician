@@ -23,3 +23,14 @@ C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Pro
 C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csproj.GenerateResource.Cache
 C:\Users\hester\Documents\GitHub\gw2musician\source\bin\Debug\InputManager.dll
 C:\Users\hester\Documents\GitHub\gw2musician\source\bin\Debug\Midi.dll
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Debug\midiKeyboarder.exe.config
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.exe
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.pdb
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Debug\midiKeyboarder.exe
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Debug\midiKeyboarder.pdb
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Debug\InputManager.dll
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Debug\Midi.dll
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csprojResolveAssemblyReference.cache
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Form1.resources
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Properties.Resources.resources
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csproj.GenerateResource.Cache
