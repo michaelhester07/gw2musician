@@ -30,7 +30,8 @@ namespace midiKeyboarder
             sections = new List<section>();
             
         }
-
+        public List<section.note> selectedNotes = new List<section.note>();
+        public List<section.note> noteClipboard = new List<section.note>();
         private void cbConnect_CheckedChanged(object sender, EventArgs e)
         {
            

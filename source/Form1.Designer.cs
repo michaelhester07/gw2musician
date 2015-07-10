@@ -44,6 +44,7 @@
             this.btnSeekStart = new System.Windows.Forms.ToolStripButton();
             this.btnRecord = new System.Windows.Forms.ToolStripButton();
             this.btnPlay = new System.Windows.Forms.ToolStripButton();
+            this.btnDeleteSection = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.tbBPM = new System.Windows.Forms.ToolStripTextBox();
             this.tickLabel = new System.Windows.Forms.ToolStripLabel();
@@ -52,7 +53,6 @@
             this.cbConnectInput = new System.Windows.Forms.CheckBox();
             this.cbxInputDevices = new System.Windows.Forms.ComboBox();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.btnDeleteSection = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -75,29 +75,32 @@
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.41048F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.58952F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1265, 458);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1043, 549);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // instrumentList
             // 
             this.instrumentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.instrumentList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.instrumentList.Location = new System.Drawing.Point(5, 72);
+            this.instrumentList.Location = new System.Drawing.Point(4, 84);
+            this.instrumentList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.instrumentList.Name = "instrumentList";
-            this.instrumentList.Size = new System.Drawing.Size(166, 381);
+            this.instrumentList.Size = new System.Drawing.Size(137, 461);
             this.instrumentList.TabIndex = 0;
             // 
             // instrumentSectionList
             // 
             this.instrumentSectionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.instrumentSectionList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.instrumentSectionList.Location = new System.Drawing.Point(179, 72);
+            this.instrumentSectionList.Location = new System.Drawing.Point(147, 84);
+            this.instrumentSectionList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.instrumentSectionList.Name = "instrumentSectionList";
-            this.instrumentSectionList.Size = new System.Drawing.Size(1081, 381);
+            this.instrumentSectionList.Size = new System.Drawing.Size(892, 461);
             this.instrumentSectionList.TabIndex = 1;
             // 
             // toolStrip1
@@ -109,9 +112,9 @@
             this.btnRemoveInstrument,
             this.btnLoad,
             this.btnSave});
-            this.toolStrip1.Location = new System.Drawing.Point(2, 40);
+            this.toolStrip1.Location = new System.Drawing.Point(2, 53);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(172, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(141, 27);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -163,9 +166,10 @@
             this.panel1.Controls.Add(this.cbConnectInput);
             this.panel1.Controls.Add(this.cbxInputDevices);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(179, 5);
+            this.panel1.Location = new System.Drawing.Point(147, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1081, 59);
+            this.panel1.Size = new System.Drawing.Size(892, 74);
             this.panel1.TabIndex = 3;
             // 
             // toolStrip2
@@ -180,9 +184,9 @@
             this.toolStripLabel1,
             this.tbBPM,
             this.tickLabel});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 32);
+            this.toolStrip2.Location = new System.Drawing.Point(0, 47);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1081, 27);
+            this.toolStrip2.Size = new System.Drawing.Size(892, 27);
             this.toolStrip2.TabIndex = 3;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -216,67 +220,6 @@
             this.btnPlay.Text = "toolStripButton4";
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(120, 24);
-            this.toolStripLabel1.Text = "Beats Per Minute";
-            // 
-            // tbBPM
-            // 
-            this.tbBPM.Name = "tbBPM";
-            this.tbBPM.Size = new System.Drawing.Size(100, 27);
-            this.tbBPM.Text = "120";
-            // 
-            // tickLabel
-            // 
-            this.tickLabel.Name = "tickLabel";
-            this.tickLabel.Size = new System.Drawing.Size(111, 24);
-            this.tickLabel.Text = "toolStripLabel2";
-            // 
-            // cbConnectOutput
-            // 
-            this.cbConnectOutput.AutoSize = true;
-            this.cbConnectOutput.Location = new System.Drawing.Point(380, 4);
-            this.cbConnectOutput.Name = "cbConnectOutput";
-            this.cbConnectOutput.Size = new System.Drawing.Size(129, 21);
-            this.cbConnectOutput.TabIndex = 1;
-            this.cbConnectOutput.Text = "Connect Output";
-            this.cbConnectOutput.UseVisualStyleBackColor = true;
-            this.cbConnectOutput.CheckedChanged += new System.EventHandler(this.cbConnectOutput_CheckedChanged_1);
-            // 
-            // cbxOutputDevices
-            // 
-            this.cbxOutputDevices.FormattingEnabled = true;
-            this.cbxOutputDevices.Location = new System.Drawing.Point(253, 2);
-            this.cbxOutputDevices.Name = "cbxOutputDevices";
-            this.cbxOutputDevices.Size = new System.Drawing.Size(121, 24);
-            this.cbxOutputDevices.TabIndex = 2;
-            // 
-            // cbConnectInput
-            // 
-            this.cbConnectInput.AutoSize = true;
-            this.cbConnectInput.Location = new System.Drawing.Point(130, 5);
-            this.cbConnectInput.Name = "cbConnectInput";
-            this.cbConnectInput.Size = new System.Drawing.Size(117, 21);
-            this.cbConnectInput.TabIndex = 0;
-            this.cbConnectInput.Text = "Connect input";
-            this.cbConnectInput.UseVisualStyleBackColor = true;
-            this.cbConnectInput.CheckedChanged += new System.EventHandler(this.cbConnectInput_CheckedChanged);
-            // 
-            // cbxInputDevices
-            // 
-            this.cbxInputDevices.FormattingEnabled = true;
-            this.cbxInputDevices.Location = new System.Drawing.Point(3, 3);
-            this.cbxInputDevices.Name = "cbxInputDevices";
-            this.cbxInputDevices.Size = new System.Drawing.Size(121, 24);
-            this.cbxInputDevices.TabIndex = 0;
-            // 
-            // playTimer
-            // 
-            this.playTimer.Interval = 10;
-            this.playTimer.Tick += new System.EventHandler(this.playTimer_Tick);
-            // 
             // btnDeleteSection
             // 
             this.btnDeleteSection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -287,14 +230,79 @@
             this.btnDeleteSection.Text = "toolStripButton1";
             this.btnDeleteSection.Click += new System.EventHandler(this.btnDeleteSection_Click);
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(96, 24);
+            this.toolStripLabel1.Text = "Beats Per Minute";
+            // 
+            // tbBPM
+            // 
+            this.tbBPM.Name = "tbBPM";
+            this.tbBPM.Size = new System.Drawing.Size(76, 27);
+            this.tbBPM.Text = "120";
+            // 
+            // tickLabel
+            // 
+            this.tickLabel.Name = "tickLabel";
+            this.tickLabel.Size = new System.Drawing.Size(86, 24);
+            this.tickLabel.Text = "toolStripLabel2";
+            // 
+            // cbConnectOutput
+            // 
+            this.cbConnectOutput.AutoSize = true;
+            this.cbConnectOutput.Location = new System.Drawing.Point(285, 3);
+            this.cbConnectOutput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbConnectOutput.Name = "cbConnectOutput";
+            this.cbConnectOutput.Size = new System.Drawing.Size(101, 17);
+            this.cbConnectOutput.TabIndex = 1;
+            this.cbConnectOutput.Text = "Connect Output";
+            this.cbConnectOutput.UseVisualStyleBackColor = true;
+            this.cbConnectOutput.CheckedChanged += new System.EventHandler(this.cbConnectOutput_CheckedChanged_1);
+            // 
+            // cbxOutputDevices
+            // 
+            this.cbxOutputDevices.FormattingEnabled = true;
+            this.cbxOutputDevices.Location = new System.Drawing.Point(190, 2);
+            this.cbxOutputDevices.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxOutputDevices.Name = "cbxOutputDevices";
+            this.cbxOutputDevices.Size = new System.Drawing.Size(92, 21);
+            this.cbxOutputDevices.TabIndex = 2;
+            // 
+            // cbConnectInput
+            // 
+            this.cbConnectInput.AutoSize = true;
+            this.cbConnectInput.Location = new System.Drawing.Point(98, 4);
+            this.cbConnectInput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbConnectInput.Name = "cbConnectInput";
+            this.cbConnectInput.Size = new System.Drawing.Size(92, 17);
+            this.cbConnectInput.TabIndex = 0;
+            this.cbConnectInput.Text = "Connect input";
+            this.cbConnectInput.UseVisualStyleBackColor = true;
+            this.cbConnectInput.CheckedChanged += new System.EventHandler(this.cbConnectInput_CheckedChanged);
+            // 
+            // cbxInputDevices
+            // 
+            this.cbxInputDevices.FormattingEnabled = true;
+            this.cbxInputDevices.Location = new System.Drawing.Point(2, 2);
+            this.cbxInputDevices.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxInputDevices.Name = "cbxInputDevices";
+            this.cbxInputDevices.Size = new System.Drawing.Size(92, 21);
+            this.cbxInputDevices.TabIndex = 0;
+            // 
+            // playTimer
+            // 
+            this.playTimer.Interval = 10;
+            this.playTimer.Tick += new System.EventHandler(this.playTimer_Tick);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1265, 458);
+            this.ClientSize = new System.Drawing.Size(1043, 549);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Midi Keyboarder";
             this.Load += new System.EventHandler(this.Form1_Load);

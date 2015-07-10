@@ -36,3 +36,6 @@ C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Pr
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csproj.GenerateResource.Cache
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.instrumentPanel.resources
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.sectionPanel.resources
+C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csprojResolveAssemblyReference.cache
+C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.instrumentPanel.resources
+C:\Users\hester\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.sectionPanel.resources
