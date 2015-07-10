@@ -14,11 +14,12 @@ namespace midiKeyboarder
 
         }
 
-        public class note
+        public class note: object 
         {
            public  string pitch;
            public  float time;
            public float duration;
+           public float monitorOn;
             public note()
            {
                pitch = "A0";
@@ -31,18 +32,20 @@ namespace midiKeyboarder
         public int instrumentid;
         public List<note> notes;
         public string name;
-
+        public float starttime;
         public section ()
         {
             notes = new List<note>();
         }
 
-        public void addNote(string pitch, float time)
+        public note addNote(string pitch, float time, float duration)
         {
             note n = new note();
             n.pitch = pitch;
             n.time = time;
+            n.duration = duration;
             notes.Add(n);
+            return n;
 
         }
         public void removeNote(int id)
@@ -51,14 +54,14 @@ namespace midiKeyboarder
 
         }
         //use a high enough resolution for the sequencer
-        public string [] play(float timeA, float timeB)
+        public note[] play(float timeA, float timeB)
         {
             //return a list of notes between the times listed
-            List<string> retnotes = new List<string>();
+            List<note> retnotes = new List<note>();
             foreach(note n in notes)
             {
                 if (n.time > timeA && n.time < timeB)
-                    retnotes.Add(n.pitch);
+                    retnotes.Add(n);
             }
             return retnotes.ToArray();
         }
@@ -72,11 +75,13 @@ namespace midiKeyboarder
                 System.Xml.XmlElement sec = doc.CreateElement("section");
                 sec.SetAttribute("name", s.name);
                 sec.SetAttribute("instrumentID", s.instrumentid.ToString());
+                sec.SetAttribute("startTime", s.starttime.ToString());
                 foreach(note n in s.notes)
                 {
                     System.Xml.XmlElement xnote = doc.CreateElement("note");
                     xnote.SetAttribute("pitch", n.pitch);
                     xnote.SetAttribute("time", n.time.ToString());
+                    xnote.SetAttribute("duration", n.duration.ToString());
                     sec.AppendChild(xnote);
                 }
                 ret.AppendChild(sec);
@@ -93,6 +98,7 @@ namespace midiKeyboarder
                 section s = new section();
                 s.name = e.GetAttribute("name");
                 s.instrumentid = int.Parse(e.GetAttribute("instrumentID"));
+                s.starttime = float.Parse(e.GetAttribute("startTime"));
                 var notes = e.GetElementsByTagName("note");
                 foreach(System.Xml.XmlElement n in notes)
                 {
@@ -102,6 +108,7 @@ namespace midiKeyboarder
                     nx.duration = float.Parse(n.GetAttribute("duration"));
                     s.notes.Add(nx);
                 }
+                sections.Add(s);
 
             }
             return sections;

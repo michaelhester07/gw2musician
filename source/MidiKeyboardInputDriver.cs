@@ -10,7 +10,7 @@ namespace midiKeyboarder
     {
         Midi.InputDevice keybd;
 
-        Midi.OutputDevice outputDevice;
+        Midi.OutputDevice monitor;
 
         List<Midi.Pitch> keysDown;
 
@@ -23,7 +23,7 @@ namespace midiKeyboarder
         public event Midi.InputDevice.PitchBendHandler PitchBend;
         public delegate void NoteOnStringHandler(string note);
         public event NoteOnStringHandler NoteOnString;
-
+        public event NoteOnStringHandler NoteOffString;
         public void start(Midi.InputDevice indev)
         {
 
@@ -41,7 +41,7 @@ namespace midiKeyboarder
 
         public void setMonitor(Midi.OutputDevice device)
         {
-            outputDevice = device;
+            monitor = device;
         }
 
         private void keybd_ControlChange(ControlChangeMessage msg)
@@ -63,9 +63,13 @@ namespace midiKeyboarder
                 //InputManager.Keyboard.KeyUp(lastCode);
                 if (NoteOff != null)
                     NoteOff(msg);
+                string pitchIn = msg.Pitch.ToString();
+                //send to the main form
+                if (NoteOffString != null)
+                    NoteOffString(pitchIn);
                 keysDown.Remove(msg.Pitch);
-                if(outputDevice != null)
-                    outputDevice.SendNoteOff(Midi.Channel.Channel1, msg.Pitch, 127);
+                if (monitor != null)
+                    monitor.SendNoteOff(Midi.Channel.Channel1, msg.Pitch, 127);
             }
         }
 
@@ -75,11 +79,12 @@ namespace midiKeyboarder
             {
                 //InputManager.Keyboard.KeyUp(lastCode);
                 string pitchIn = msg.Pitch.ToString();
-              
+                if (NoteOffString != null)
+                    NoteOffString(pitchIn);
                
                 keysDown.Remove(msg.Pitch);
-                if (outputDevice != null)
-                    outputDevice.SendNoteOff(Midi.Channel.Channel1, msg.Pitch, msg.Velocity);
+               // if (monitor != null)
+                  //  monitor.SendNoteOff(Midi.Channel.Channel1, msg.Pitch, msg.Velocity);
             }
             else
             {
@@ -90,8 +95,8 @@ namespace midiKeyboarder
                 if (NoteOnString != null)
                     NoteOnString(pitchIn);
                //play in the monitor if its available
-                if (outputDevice != null)
-                    outputDevice.SendNoteOn(Midi.Channel.Channel1, msg.Pitch, msg.Velocity/*msg.Velocity*/);
+               // if (monitor != null)
+                 //   monitor.SendNoteOn(Midi.Channel.Channel1, msg.Pitch, msg.Velocity/*msg.Velocity*/);
                 //these are passed out for the sequencer
                 if (NoteOn != null)
                     NoteOn(msg);

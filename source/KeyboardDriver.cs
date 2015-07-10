@@ -10,7 +10,7 @@ namespace midiKeyboarder
 {
    public  class KeyboardDriver
     {
-       object locker;
+       object locker = new object();
         Queue<midikey> keyQueue;
         bool kill = false;
        InputManager.VirtualKeyboard keybdx;
@@ -32,7 +32,7 @@ namespace midiKeyboarder
             keyQueue = new Queue<midikey>();
             System.Threading.Thread keythreadx = new System.Threading.Thread(keythread);
             keythreadx.Start();
-           locker = new object();
+           
 
        }
 

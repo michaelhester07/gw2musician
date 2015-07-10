@@ -34,3 +34,5 @@ C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.cs
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Form1.resources
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.Properties.Resources.resources
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.csproj.GenerateResource.Cache
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.instrumentPanel.resources
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Debug\midiKeyboarder.sectionPanel.resources

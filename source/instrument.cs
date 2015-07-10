@@ -14,11 +14,30 @@ namespace midiKeyboarder
         public bool flat;
         KeyboardDriver gw2KeyDriver;
 
+        public void startServer()
+        {
+            initKeyDriver();
+            client.start(port);
+            client.keybddriver = gw2KeyDriver;
+        }
+        public void stopServer()
+        {
+            client.stop();
+        }
+
+        public void play(string note)
+        {
+            if (local)
+                gw2KeyDriver.play(note);
+            else if (connected)
+                client.sendMsg(note);
+        }
         public instrument()
         {
             mytype = instrumentType.standard; 
 
         }
+        bool started = false;
         public void initKeyDriver()
         {
             gw2KeyDriver = new KeyboardDriver();
@@ -27,16 +46,20 @@ namespace midiKeyboarder
             gw2KeyDriver.flute = mytype == instrumentType.flute;
             gw2KeyDriver.flat = false;
             gw2KeyDriver.transposeDirection = 0;
+            if(!started)
+                
+            gw2KeyDriver.start();
+            started = true;
 
         }
-        public static enum instrumentType
+        public enum instrumentType
         {
-            standard, //guitar, harp, trumpet, bell
-            flute,
-            bass,
-            drum
+            standard = 0, //guitar, harp, trumpet, bell
+            flute =1,
+            bass=2,
+            drum=3
         }
-        instrumentType mytype;
+        public instrumentType mytype;
 
         MultiBoxDriver client;
 
@@ -96,5 +119,10 @@ namespace midiKeyboarder
 
        }
 
+
+       internal void stop()
+       {
+           
+       }
     }
 }

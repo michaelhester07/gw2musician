@@ -71,6 +71,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="section.cs" />
+    <Compile Include="sectionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="sectionPanel.Designer.cs">
+      <DependentUpon>sectionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="sequencer.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,7 +92,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="sectionPanel.resx">
+      <DependentUpon>sectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -98,6 +109,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\load.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\record.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\seek.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\stop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

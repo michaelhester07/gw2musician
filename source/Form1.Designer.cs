@@ -30,7 +30,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.instrumentList = new System.Windows.Forms.FlowLayoutPanel();
@@ -38,19 +37,22 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnAddInstrument = new System.Windows.Forms.ToolStripButton();
             this.btnRemoveInstrument = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.cbConnectInput = new System.Windows.Forms.CheckBox();
+            this.btnLoad = new System.Windows.Forms.ToolStripButton();
+            this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cbxInputDevices = new System.Windows.Forms.ComboBox();
-            this.cbConnectOutput = new System.Windows.Forms.CheckBox();
-            this.cbxOutputDevices = new System.Windows.Forms.ComboBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnSeekStart = new System.Windows.Forms.ToolStripButton();
             this.btnRecord = new System.Windows.Forms.ToolStripButton();
             this.btnPlay = new System.Windows.Forms.ToolStripButton();
-            this.btnStop = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.tbBPM = new System.Windows.Forms.ToolStripTextBox();
+            this.tickLabel = new System.Windows.Forms.ToolStripLabel();
+            this.cbConnectOutput = new System.Windows.Forms.CheckBox();
+            this.cbxOutputDevices = new System.Windows.Forms.ComboBox();
+            this.cbConnectInput = new System.Windows.Forms.CheckBox();
+            this.cbxInputDevices = new System.Windows.Forms.ComboBox();
+            this.playTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnDeleteSection = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -63,6 +65,7 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.67589F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.32411F));
@@ -83,18 +86,18 @@
             // 
             this.instrumentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.instrumentList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.instrumentList.Location = new System.Drawing.Point(3, 69);
+            this.instrumentList.Location = new System.Drawing.Point(5, 72);
             this.instrumentList.Name = "instrumentList";
-            this.instrumentList.Size = new System.Drawing.Size(166, 386);
+            this.instrumentList.Size = new System.Drawing.Size(166, 381);
             this.instrumentList.TabIndex = 0;
             // 
             // instrumentSectionList
             // 
             this.instrumentSectionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.instrumentSectionList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.instrumentSectionList.Location = new System.Drawing.Point(175, 69);
+            this.instrumentSectionList.Location = new System.Drawing.Point(179, 72);
             this.instrumentSectionList.Name = "instrumentSectionList";
-            this.instrumentSectionList.Size = new System.Drawing.Size(1087, 386);
+            this.instrumentSectionList.Size = new System.Drawing.Size(1081, 381);
             this.instrumentSectionList.TabIndex = 1;
             // 
             // toolStrip1
@@ -104,8 +107,9 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnAddInstrument,
             this.btnRemoveInstrument,
-            this.toolStripButton3});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 39);
+            this.btnLoad,
+            this.btnSave});
+            this.toolStrip1.Location = new System.Drawing.Point(2, 40);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(172, 27);
             this.toolStrip1.TabIndex = 2;
@@ -114,40 +118,42 @@
             // btnAddInstrument
             // 
             this.btnAddInstrument.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddInstrument.Image = ((System.Drawing.Image)(resources.GetObject("btnAddInstrument.Image")));
+            this.btnAddInstrument.Image = global::midiKeyboarder.Properties.Resources.plus;
             this.btnAddInstrument.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddInstrument.Name = "btnAddInstrument";
             this.btnAddInstrument.Size = new System.Drawing.Size(24, 24);
             this.btnAddInstrument.Text = "toolStripButton1";
+            this.btnAddInstrument.Click += new System.EventHandler(this.btnAddInstrument_Click);
             // 
             // btnRemoveInstrument
             // 
             this.btnRemoveInstrument.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRemoveInstrument.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveInstrument.Image")));
+            this.btnRemoveInstrument.Image = global::midiKeyboarder.Properties.Resources.delete;
             this.btnRemoveInstrument.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRemoveInstrument.Name = "btnRemoveInstrument";
             this.btnRemoveInstrument.Size = new System.Drawing.Size(24, 24);
             this.btnRemoveInstrument.Text = "toolStripButton2";
+            this.btnRemoveInstrument.Click += new System.EventHandler(this.btnRemoveInstrument_Click);
             // 
-            // toolStripButton3
+            // btnLoad
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton3.Text = "toolStripButton3";
+            this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLoad.Image = global::midiKeyboarder.Properties.Resources.load;
+            this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(24, 24);
+            this.btnLoad.Text = "toolStripButton3";
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
-            // cbConnectInput
+            // btnSave
             // 
-            this.cbConnectInput.AutoSize = true;
-            this.cbConnectInput.Location = new System.Drawing.Point(130, 5);
-            this.cbConnectInput.Name = "cbConnectInput";
-            this.cbConnectInput.Size = new System.Drawing.Size(117, 21);
-            this.cbConnectInput.TabIndex = 0;
-            this.cbConnectInput.Text = "Connect input";
-            this.cbConnectInput.UseVisualStyleBackColor = true;
-            this.cbConnectInput.CheckedChanged += new System.EventHandler(this.cbConnectInput_CheckedChanged);
+            this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSave.Image = global::midiKeyboarder.Properties.Resources.save;
+            this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(24, 24);
+            this.btnSave.Text = "toolStripButton1";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // panel1
             // 
@@ -157,18 +163,76 @@
             this.panel1.Controls.Add(this.cbConnectInput);
             this.panel1.Controls.Add(this.cbxInputDevices);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(175, 3);
+            this.panel1.Location = new System.Drawing.Point(179, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1087, 60);
+            this.panel1.Size = new System.Drawing.Size(1081, 59);
             this.panel1.TabIndex = 3;
             // 
-            // cbxInputDevices
+            // toolStrip2
             // 
-            this.cbxInputDevices.FormattingEnabled = true;
-            this.cbxInputDevices.Location = new System.Drawing.Point(3, 3);
-            this.cbxInputDevices.Name = "cbxInputDevices";
-            this.cbxInputDevices.Size = new System.Drawing.Size(121, 24);
-            this.cbxInputDevices.TabIndex = 0;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSeekStart,
+            this.btnRecord,
+            this.btnPlay,
+            this.btnDeleteSection,
+            this.toolStripLabel1,
+            this.tbBPM,
+            this.tickLabel});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 32);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(1081, 27);
+            this.toolStrip2.TabIndex = 3;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // btnSeekStart
+            // 
+            this.btnSeekStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSeekStart.Image = global::midiKeyboarder.Properties.Resources.seek;
+            this.btnSeekStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSeekStart.Name = "btnSeekStart";
+            this.btnSeekStart.Size = new System.Drawing.Size(24, 24);
+            this.btnSeekStart.Text = "SeekBegin";
+            this.btnSeekStart.Click += new System.EventHandler(this.btnSeekStart_Click);
+            // 
+            // btnRecord
+            // 
+            this.btnRecord.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRecord.Image = global::midiKeyboarder.Properties.Resources.record;
+            this.btnRecord.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRecord.Name = "btnRecord";
+            this.btnRecord.Size = new System.Drawing.Size(24, 24);
+            this.btnRecord.Text = "toolStripButton2";
+            this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPlay.Image = global::midiKeyboarder.Properties.Resources.play;
+            this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(24, 24);
+            this.btnPlay.Text = "toolStripButton4";
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(120, 24);
+            this.toolStripLabel1.Text = "Beats Per Minute";
+            // 
+            // tbBPM
+            // 
+            this.tbBPM.Name = "tbBPM";
+            this.tbBPM.Size = new System.Drawing.Size(100, 27);
+            this.tbBPM.Text = "120";
+            // 
+            // tickLabel
+            // 
+            this.tickLabel.Name = "tickLabel";
+            this.tickLabel.Size = new System.Drawing.Size(111, 24);
+            this.tickLabel.Text = "toolStripLabel2";
             // 
             // cbConnectOutput
             // 
@@ -189,70 +253,39 @@
             this.cbxOutputDevices.Size = new System.Drawing.Size(121, 24);
             this.cbxOutputDevices.TabIndex = 2;
             // 
-            // toolStrip2
+            // cbConnectInput
             // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSeekStart,
-            this.btnRecord,
-            this.btnPlay,
-            this.btnStop,
-            this.toolStripLabel1,
-            this.tbBPM});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 33);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1087, 27);
-            this.toolStrip2.TabIndex = 3;
-            this.toolStrip2.Text = "toolStrip2";
+            this.cbConnectInput.AutoSize = true;
+            this.cbConnectInput.Location = new System.Drawing.Point(130, 5);
+            this.cbConnectInput.Name = "cbConnectInput";
+            this.cbConnectInput.Size = new System.Drawing.Size(117, 21);
+            this.cbConnectInput.TabIndex = 0;
+            this.cbConnectInput.Text = "Connect input";
+            this.cbConnectInput.UseVisualStyleBackColor = true;
+            this.cbConnectInput.CheckedChanged += new System.EventHandler(this.cbConnectInput_CheckedChanged);
             // 
-            // btnSeekStart
+            // cbxInputDevices
             // 
-            this.btnSeekStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSeekStart.Image = ((System.Drawing.Image)(resources.GetObject("btnSeekStart.Image")));
-            this.btnSeekStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSeekStart.Name = "btnSeekStart";
-            this.btnSeekStart.Size = new System.Drawing.Size(24, 24);
-            this.btnSeekStart.Text = "SeekBegin";
+            this.cbxInputDevices.FormattingEnabled = true;
+            this.cbxInputDevices.Location = new System.Drawing.Point(3, 3);
+            this.cbxInputDevices.Name = "cbxInputDevices";
+            this.cbxInputDevices.Size = new System.Drawing.Size(121, 24);
+            this.cbxInputDevices.TabIndex = 0;
             // 
-            // btnRecord
+            // playTimer
             // 
-            this.btnRecord.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRecord.Image = ((System.Drawing.Image)(resources.GetObject("btnRecord.Image")));
-            this.btnRecord.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRecord.Name = "btnRecord";
-            this.btnRecord.Size = new System.Drawing.Size(24, 24);
-            this.btnRecord.Text = "toolStripButton2";
+            this.playTimer.Interval = 10;
+            this.playTimer.Tick += new System.EventHandler(this.playTimer_Tick);
             // 
-            // btnPlay
+            // btnDeleteSection
             // 
-            this.btnPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPlay.Image = ((System.Drawing.Image)(resources.GetObject("btnPlay.Image")));
-            this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(24, 24);
-            this.btnPlay.Text = "toolStripButton4";
-            // 
-            // btnStop
-            // 
-            this.btnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(24, 24);
-            this.btnStop.Text = "toolStripButton5";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(120, 24);
-            this.toolStripLabel1.Text = "Beats Per Minute";
-            // 
-            // tbBPM
-            // 
-            this.tbBPM.Name = "tbBPM";
-            this.tbBPM.Size = new System.Drawing.Size(100, 27);
-            this.tbBPM.Text = "120";
+            this.btnDeleteSection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDeleteSection.Image = global::midiKeyboarder.Properties.Resources.delete;
+            this.btnDeleteSection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDeleteSection.Name = "btnDeleteSection";
+            this.btnDeleteSection.Size = new System.Drawing.Size(24, 24);
+            this.btnDeleteSection.Text = "toolStripButton1";
+            this.btnDeleteSection.Click += new System.EventHandler(this.btnDeleteSection_Click);
             // 
             // Form1
             // 
@@ -286,7 +319,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnAddInstrument;
         private System.Windows.Forms.ToolStripButton btnRemoveInstrument;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton btnLoad;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox cbConnectOutput;
         private System.Windows.Forms.ComboBox cbxOutputDevices;
@@ -296,9 +329,12 @@
         private System.Windows.Forms.ToolStripButton btnSeekStart;
         private System.Windows.Forms.ToolStripButton btnRecord;
         private System.Windows.Forms.ToolStripButton btnPlay;
-        private System.Windows.Forms.ToolStripButton btnStop;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox tbBPM;
+        private System.Windows.Forms.ToolStripButton btnSave;
+        private System.Windows.Forms.Timer playTimer;
+        private System.Windows.Forms.ToolStripLabel tickLabel;
+        private System.Windows.Forms.ToolStripButton btnDeleteSection;
     }
 }
 
