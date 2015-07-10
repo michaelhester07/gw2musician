@@ -16,12 +16,19 @@ namespace midiKeyboarder
         public static List<section> sections;
         public static List<instrument> instruments;
 
-        int selectedInstrument = -1;
+       public int selectedInstrument = -1;
         
         MidiKeyboardInputDriver inputDriver;
         MultiBoxDriver mbDriver;
 
         Midi.OutputDevice monitor;
+
+
+       public static KeyboardDriver standardDriver = new KeyboardDriver();
+       public static KeyboardDriver bassDriver = new KeyboardDriver();
+       public static KeyboardDriver fluteDriver = new KeyboardDriver();
+       public static KeyboardDriver drumDriver = new KeyboardDriver();
+
 
         public Form1()
         {
@@ -32,6 +39,55 @@ namespace midiKeyboarder
         }
         public List<section.note> selectedNotes = new List<section.note>();
         public List<section.note> noteClipboard = new List<section.note>();
+
+        public void copy()
+        {
+            noteClipboard.Clear();
+            foreach (var n in selectedNotes)
+            {
+                section.note xn = new section.note();
+                xn.pitch = n.pitch;
+                xn.time = n.time;
+                xn.duration = n.duration;
+                noteClipboard.Add(xn);
+            }
+        }
+        public void delete()
+        {
+            foreach(var n in selectedNotes)
+            {
+                if (selectedInstrument >= 0)
+                    sections[selectedInstrument].notes.Remove(n);
+            }
+            selectedNotes.Clear();
+            renderSections();
+        }
+        public void cut()
+        {
+            copy();
+            delete();
+        }
+        public void paste()
+        {
+            if (noteClipboard.Count == 0)
+                return;
+            float timeoffset = time - noteClipboard[0].time;
+            foreach (var n in noteClipboard)
+            {
+                if (selectedInstrument >= 0)
+                {
+                    section.note xn = new section.note();
+                    xn.pitch = n.pitch;
+                    xn.time = n.time + timeoffset;
+                    xn.duration = n.duration;
+                   // n.time += timeoffset;
+                    sections[selectedInstrument].notes.Add(xn);
+                }
+            }
+            renderSections();
+        }
+
+
         private void cbConnect_CheckedChanged(object sender, EventArgs e)
         {
            
@@ -115,6 +171,8 @@ namespace midiKeyboarder
                 cbConnectInput.Enabled = false;
             if (cbxOutputDevices.Items.Count == 0)
                 cbConnectOutput.Enabled = false;
+            
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -178,6 +236,9 @@ namespace midiKeyboarder
                 monitor = Midi.OutputDevice.InstalledDevices[cbxOutputDevices.SelectedIndex];
                 monitor.Open();
                 monitor.SendProgramChange(Midi.Channel.Channel1, Midi.Instrument.AcousticGrandPiano);
+                if (monitor.Name.Contains("Microsoft"))
+                    monitor.SendControlChange(Midi.Channel.Channel1, Midi.Control.Volume, 127);
+                    
             }
             else
             {
@@ -205,14 +266,20 @@ namespace midiKeyboarder
             sp.myform = this;
             sp.drawSection(time, scrollTime, 4);
         }
+        public void selectUIInstrument(int id)
+        {
+            var ip = selectInstrument(id);
+            highlightInstrument(ip);
+        }
         private void btnAddInstrument_Click(object sender, EventArgs e)
         {
             instruments.Add(new instrument());
             var ip = addInstrumentPanel(instruments.Count - 1);
-
-            sections.Add(new section());
+            var section = new section();
+            sections.Add(section);
+            section.instrumentid = ip.instrumentID;
             addSection(ip, ip.instrumentID);
-            
+            highlightInstrument(ip);
             
 
         }
@@ -271,6 +338,7 @@ namespace midiKeyboarder
             var ip = selectInstrument(selectedInstrument);
             instruments.RemoveAt(selectedInstrument);
             sections.RemoveAt(selectedInstrument);
+            instrumentSectionList.Controls.RemoveAt(selectedInstrument);
             instrumentList.Controls.Remove(ip);
             ip.Dispose();
             var ip2 = selectInstrument(0);
@@ -285,14 +353,14 @@ namespace midiKeyboarder
 
         float lastmidiRead = 0;
         Midi.Clock recordingClock;
-
+        int timesig = 4;
         public void renderSections()
         {
             foreach(Control c in instrumentSectionList.Controls)
             {
                 sectionPanel sp = c as sectionPanel;
                 if (sp != null)
-                    sp.drawSection(time, scrollTime, 4);
+                    sp.drawSection(time, scrollTime, timesig);
 
             }
             tickLabel.Text = time.ToString();
@@ -314,9 +382,19 @@ namespace midiKeyboarder
             else
                 recording = false;
         }
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd); 
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
+
+            var procs = System.Diagnostics.Process.GetProcesses();
+            //find the guildwars window and focus it
+            var Guildwars2 = System.Diagnostics.Process.GetProcessesByName("Gw2");
+            if (Guildwars2.Length != 0)
+                SetForegroundWindow(Guildwars2[0].MainWindowHandle);
+
+
             btnSeekStart.Image = Properties.Resources.stop;
             playing = true;
             recordingClock = new Midi.Clock(float.Parse(tbBPM.Text));
@@ -324,8 +402,12 @@ namespace midiKeyboarder
             playTimer.Start();
             monitorNotesOn.Clear();
         }
-       
-       
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Application.Exit();
+        }
 
         private void btnSeekStart_Click(object sender, EventArgs e)
         {
@@ -377,13 +459,28 @@ namespace midiKeyboarder
 
                // monitor.SendNoteOn(Midi.Channel.Channel1, xn.PitchInOctave(pos), 64);
                 //System.Threading.Thread.Sleep((int)(1000 * n.duration));
-                monitor.SendNoteOff(Midi.Channel.Channel1, xn.PitchInOctave(pos), 64);
+                
+                monitor.SendNoteOff(Midi.Channel.Channel1, xn.PitchInOctave(pos), 0);
             }
         }
-
+        public void quickPlay(section.note n)
+        {
+            if (monitor == null)
+                return;
+            System.Threading.Thread playthread = new System.Threading.Thread(monitorPlay);
+            playthread.Start(n);
+        }
         void monitorPlay(object o)
         {
-           
+            section.note n = (section.note)o;
+            int pos = 0;
+            Midi.Note xn = Midi.Note.ParseNote(n.pitch, ref pos);
+            pos = int.Parse("" + n.pitch[n.pitch.Length - 1]);
+            System.Diagnostics.Trace.WriteLine("noteoff " + n.pitch);
+             monitor.SendNoteOn(Midi.Channel.Channel1, xn.PitchInOctave(pos), 64);
+            System.Threading.Thread.Sleep((int)(1000));
+
+            monitor.SendNoteOff(Midi.Channel.Channel1, xn.PitchInOctave(pos), 0);
         }
         private void playTimer_Tick(object sender, EventArgs e)
         {
@@ -426,16 +523,38 @@ namespace midiKeyboarder
 
                         foreach (section s in sections)
                         {
-                            var notes = s.play(time - 1/64.0f, time + 1/64.0f);
+                            var notes = s.notes;
                             foreach (var n in notes)
                             {
-                                if (!monitorNotesOn.Contains(n))
+                                if(!n.playing && n.time < time && n.time + n.duration > time)
                                 {
+                                    n.playing = true;
                                     monitorNoteOn(n);
-                                    n.monitorOn = n.duration;
-                                    monitorNotesOn.Add(n);
+                                    //n.monitorOn = n.duration;
+                                    //monitorNotesOn.Add(n);
+                                    int oct = getNoteOctave(n.pitch);
+                                    if (instruments[s.instrumentid].mytype == instrument.instrumentType.standard && oct >= 3)
+                                    {
+                                        instruments[s.instrumentid].play(n.pitch);
+                                    }
+                                    else if (instruments[s.instrumentid].mytype == instrument.instrumentType.standard && oct <= 2)
+                                    {
+                                        int bass = findBass();
+                                        if (bass >= 0)
+                                            instruments[bass].play(n.pitch);
+                                    }
+                                    else
+                                    { instruments[s.instrumentid].play(n.pitch); }
+
+
+                                    
                                 }
-                                //instruments[s.instrumentid].play(n.pitch);
+                                if (n.playing && n.time + n.duration < time)
+                                {
+                                    monitorNoteOff(n);
+                                    n.playing = false;
+                                }
+                               
 
                             }
                             //play the note in the monitor
@@ -496,7 +615,51 @@ namespace midiKeyboarder
                 renderSections();
             }
         }
-       
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+        }
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+                copy();
+            if (e.Control && e.KeyCode == Keys.X)
+                cut();
+            if (e.Control && e.KeyCode == Keys.V)
+                paste();
+            if (e.KeyCode == Keys.Delete)
+                delete();
+        }
+
+        private void tbTimeSig_Click(object sender, EventArgs e)
+        {
+            int outint;
+            if (int.TryParse(tbTimeSig.Text, out outint))
+                timesig = outint;
+            renderSections();
+        }
+        public int addlength = 8;
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+            int outint;
+            if (int.TryParse(toolStripTextBox1.Text, out outint))
+                addlength = outint;
+            renderSections();
+        }
+        public int addOctave = 3;
+        public float autoAdvance = 1 / 8.0f;
+        private void tbAutoAdvance_Click(object sender, EventArgs e)
+        {
+            int outint;
+            if (int.TryParse(tbAutoAdvance.Text, out outint))
+            {
+                if (outint == 0)
+                    autoAdvance = 0;
+                else
+                    autoAdvance =1 / (float)outint;
+            }
+            renderSections();
+        }
         
     }
 }

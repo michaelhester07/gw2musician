@@ -8,3 +8,16 @@ C:\Users\potato1\Documents\Visual Studio 2013\Projects\midiKeyboarder\midiKeyboa
 C:\Users\potato1\Documents\Visual Studio 2013\Projects\midiKeyboarder\midiKeyboarder\obj\Release\midiKeyboarder.csproj.GenerateResource.Cache
 C:\Users\potato1\Documents\Visual Studio 2013\Projects\midiKeyboarder\midiKeyboarder\obj\Release\midiKeyboarder.exe
 C:\Users\potato1\Documents\Visual Studio 2013\Projects\midiKeyboarder\midiKeyboarder\obj\Release\midiKeyboarder.pdb
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\midiKeyboarder.exe.config
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.exe
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.pdb
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\midiKeyboarder.exe
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\midiKeyboarder.pdb
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\InputManager.dll
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\Midi.dll
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.csprojResolveAssemblyReference.cache
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.Form1.resources
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.instrumentPanel.resources
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.Properties.Resources.resources
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.sectionPanel.resources
+C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.csproj.GenerateResource.Cache

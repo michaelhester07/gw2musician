@@ -48,11 +48,19 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.tbBPM = new System.Windows.Forms.ToolStripTextBox();
             this.tickLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.tbTimeSig = new System.Windows.Forms.ToolStripTextBox();
             this.cbConnectOutput = new System.Windows.Forms.CheckBox();
             this.cbxOutputDevices = new System.Windows.Forms.ComboBox();
             this.cbConnectInput = new System.Windows.Forms.CheckBox();
             this.cbxInputDevices = new System.Windows.Forms.ComboBox();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this.labOctave = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.tbAutoAdvance = new System.Windows.Forms.ToolStripTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -75,33 +83,36 @@
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.41048F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.58952F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1043, 549);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1391, 676);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // instrumentList
             // 
+            this.instrumentList.AutoScroll = true;
             this.instrumentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.instrumentList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.instrumentList.Location = new System.Drawing.Point(4, 84);
-            this.instrumentList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.instrumentList.Location = new System.Drawing.Point(5, 102);
+            this.instrumentList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.instrumentList.Name = "instrumentList";
-            this.instrumentList.Size = new System.Drawing.Size(137, 461);
+            this.instrumentList.Size = new System.Drawing.Size(183, 570);
             this.instrumentList.TabIndex = 0;
             // 
             // instrumentSectionList
             // 
+            this.instrumentSectionList.AutoScroll = true;
             this.instrumentSectionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.instrumentSectionList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.instrumentSectionList.Location = new System.Drawing.Point(147, 84);
-            this.instrumentSectionList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.instrumentSectionList.Location = new System.Drawing.Point(196, 102);
+            this.instrumentSectionList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.instrumentSectionList.Name = "instrumentSectionList";
-            this.instrumentSectionList.Size = new System.Drawing.Size(892, 461);
+            this.instrumentSectionList.Size = new System.Drawing.Size(1190, 570);
             this.instrumentSectionList.TabIndex = 1;
+            this.instrumentSectionList.WrapContents = false;
             // 
             // toolStrip1
             // 
@@ -112,9 +123,9 @@
             this.btnRemoveInstrument,
             this.btnLoad,
             this.btnSave});
-            this.toolStrip1.Location = new System.Drawing.Point(2, 53);
+            this.toolStrip1.Location = new System.Drawing.Point(2, 71);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(141, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(189, 27);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -166,10 +177,10 @@
             this.panel1.Controls.Add(this.cbConnectInput);
             this.panel1.Controls.Add(this.cbxInputDevices);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(147, 4);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Location = new System.Drawing.Point(196, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(892, 74);
+            this.panel1.Size = new System.Drawing.Size(1190, 92);
             this.panel1.TabIndex = 3;
             // 
             // toolStrip2
@@ -183,10 +194,18 @@
             this.btnDeleteSection,
             this.toolStripLabel1,
             this.tbBPM,
-            this.tickLabel});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 47);
+            this.tickLabel,
+            this.toolStripLabel2,
+            this.tbTimeSig,
+            this.toolStripLabel3,
+            this.toolStripTextBox1,
+            this.toolStripLabel4,
+            this.labOctave,
+            this.toolStripLabel5,
+            this.tbAutoAdvance});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 65);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(892, 27);
+            this.toolStrip2.Size = new System.Drawing.Size(1190, 27);
             this.toolStrip2.TabIndex = 3;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -233,28 +252,41 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(96, 24);
+            this.toolStripLabel1.Size = new System.Drawing.Size(120, 24);
             this.toolStripLabel1.Text = "Beats Per Minute";
             // 
             // tbBPM
             // 
             this.tbBPM.Name = "tbBPM";
-            this.tbBPM.Size = new System.Drawing.Size(76, 27);
+            this.tbBPM.Size = new System.Drawing.Size(100, 27);
             this.tbBPM.Text = "120";
             // 
             // tickLabel
             // 
             this.tickLabel.Name = "tickLabel";
-            this.tickLabel.Size = new System.Drawing.Size(86, 24);
+            this.tickLabel.Size = new System.Drawing.Size(111, 24);
             this.tickLabel.Text = "toolStripLabel2";
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(45, 24);
+            this.toolStripLabel2.Text = "Beats";
+            // 
+            // tbTimeSig
+            // 
+            this.tbTimeSig.Name = "tbTimeSig";
+            this.tbTimeSig.Size = new System.Drawing.Size(100, 27);
+            this.tbTimeSig.Text = "4";
+            this.tbTimeSig.Click += new System.EventHandler(this.tbTimeSig_Click);
             // 
             // cbConnectOutput
             // 
             this.cbConnectOutput.AutoSize = true;
-            this.cbConnectOutput.Location = new System.Drawing.Point(285, 3);
-            this.cbConnectOutput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbConnectOutput.Location = new System.Drawing.Point(380, 4);
+            this.cbConnectOutput.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbConnectOutput.Name = "cbConnectOutput";
-            this.cbConnectOutput.Size = new System.Drawing.Size(101, 17);
+            this.cbConnectOutput.Size = new System.Drawing.Size(129, 21);
             this.cbConnectOutput.TabIndex = 1;
             this.cbConnectOutput.Text = "Connect Output";
             this.cbConnectOutput.UseVisualStyleBackColor = true;
@@ -263,19 +295,19 @@
             // cbxOutputDevices
             // 
             this.cbxOutputDevices.FormattingEnabled = true;
-            this.cbxOutputDevices.Location = new System.Drawing.Point(190, 2);
-            this.cbxOutputDevices.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxOutputDevices.Location = new System.Drawing.Point(253, 2);
+            this.cbxOutputDevices.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbxOutputDevices.Name = "cbxOutputDevices";
-            this.cbxOutputDevices.Size = new System.Drawing.Size(92, 21);
+            this.cbxOutputDevices.Size = new System.Drawing.Size(121, 24);
             this.cbxOutputDevices.TabIndex = 2;
             // 
             // cbConnectInput
             // 
             this.cbConnectInput.AutoSize = true;
-            this.cbConnectInput.Location = new System.Drawing.Point(98, 4);
-            this.cbConnectInput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbConnectInput.Location = new System.Drawing.Point(131, 5);
+            this.cbConnectInput.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbConnectInput.Name = "cbConnectInput";
-            this.cbConnectInput.Size = new System.Drawing.Size(92, 17);
+            this.cbConnectInput.Size = new System.Drawing.Size(117, 21);
             this.cbConnectInput.TabIndex = 0;
             this.cbConnectInput.Text = "Connect input";
             this.cbConnectInput.UseVisualStyleBackColor = true;
@@ -284,10 +316,10 @@
             // cbxInputDevices
             // 
             this.cbxInputDevices.FormattingEnabled = true;
-            this.cbxInputDevices.Location = new System.Drawing.Point(2, 2);
-            this.cbxInputDevices.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxInputDevices.Location = new System.Drawing.Point(3, 2);
+            this.cbxInputDevices.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbxInputDevices.Name = "cbxInputDevices";
-            this.cbxInputDevices.Size = new System.Drawing.Size(92, 21);
+            this.cbxInputDevices.Size = new System.Drawing.Size(121, 24);
             this.cbxInputDevices.TabIndex = 0;
             // 
             // playTimer
@@ -295,17 +327,56 @@
             this.playTimer.Interval = 10;
             this.playTimer.Tick += new System.EventHandler(this.playTimer_Tick);
             // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(123, 24);
+            this.toolStripLabel3.Text = "Add Note Length";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 27);
+            this.toolStripTextBox1.Text = "8";
+            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(58, 24);
+            this.toolStripLabel4.Text = "Octave:";
+            // 
+            // labOctave
+            // 
+            this.labOctave.Name = "labOctave";
+            this.labOctave.Size = new System.Drawing.Size(17, 24);
+            this.labOctave.Text = "4";
+            // 
+            // toolStripLabel5
+            // 
+            this.toolStripLabel5.Name = "toolStripLabel5";
+            this.toolStripLabel5.Size = new System.Drawing.Size(102, 24);
+            this.toolStripLabel5.Text = "Auto Advance";
+            // 
+            // tbAutoAdvance
+            // 
+            this.tbAutoAdvance.Name = "tbAutoAdvance";
+            this.tbAutoAdvance.Size = new System.Drawing.Size(100, 27);
+            this.tbAutoAdvance.Text = "8";
+            this.tbAutoAdvance.Click += new System.EventHandler(this.tbAutoAdvance_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1043, 549);
+            this.ClientSize = new System.Drawing.Size(1391, 676);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Midi Keyboarder";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -343,6 +414,14 @@
         private System.Windows.Forms.Timer playTimer;
         private System.Windows.Forms.ToolStripLabel tickLabel;
         private System.Windows.Forms.ToolStripButton btnDeleteSection;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripTextBox tbTimeSig;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel4;
+        public System.Windows.Forms.ToolStripLabel labOctave;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel5;
+        private System.Windows.Forms.ToolStripTextBox tbAutoAdvance;
     }
 }
 

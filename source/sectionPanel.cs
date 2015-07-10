@@ -16,7 +16,116 @@ namespace midiKeyboarder
         {
             InitializeComponent();
             renderPlane.MouseUp += renderPlane_MouseUp;
+            this.KeyUp += sectionPanel_KeyUp;
+            renderPlane.PreviewKeyDown += renderPlane_PreviewKeyDown;
             
+            
+        }
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+        }
+        void renderPlane_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        void addNote(string pitch)
+        {
+            section.note newnote = new section.note();
+            newnote.duration = 1 / (float)myform.addlength;
+            newnote.time = myform.time;
+            newnote.pitch = pitch;
+            mySection.notes.Add(newnote);
+            myform.quickPlay(newnote);
+            myform.time += myform.autoAdvance * 4;
+            myform.renderSections();
+
+        }
+        void sectionPanel_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+                myform.copy();
+            if (e.Control && e.KeyCode == Keys.X)
+                myform.cut();
+            if (e.Control && e.KeyCode == Keys.V)
+                myform.paste();
+            if (e.KeyCode == Keys.Delete)
+                myform.delete();
+
+            switch(e.KeyCode)
+            {
+                case Keys.D0:
+                    myform.addOctave++;
+                    if (myform.addOctave > 5)
+                        myform.addOctave = 5;
+                    myform.labOctave.Text = myform.addOctave.ToString();
+                    break;
+                case Keys.D9:
+                    myform.addOctave--;
+                    if (myform.addOctave < 1)
+                        myform.addOctave = 1;
+                    myform.labOctave.Text = myform.addOctave.ToString();
+                    break;
+                case Keys.D1:
+                    {
+                        string pitch = "C" + myform.addOctave.ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+                case Keys.D2:
+                    {
+                        string pitch = "D" + myform.addOctave.ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+                case Keys.D3:
+                    {
+                        string pitch = "E" + myform.addOctave.ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+                case Keys.D4:
+                    {
+                        string pitch = "F" + myform.addOctave.ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+                case Keys.D5:
+                    {
+                        string pitch = "G" + myform.addOctave.ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+                case Keys.D6:
+                    {
+                        string pitch = "A" + myform.addOctave.ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+                case Keys.D7:
+                    {
+                        string pitch = "B" + myform.addOctave.ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+                case Keys.D8:
+                    {
+                        string pitch = "C" + (myform.addOctave+1).ToString();
+
+                        addNote(pitch);
+                    }
+                    break;
+
+            }
+
+
         }
         public Form1 myform;
         void renderPlane_MouseUp(object sender, MouseEventArgs e)
@@ -26,11 +135,17 @@ namespace midiKeyboarder
             
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
+                
                 var tryPickNote = pickNote(e);
                 if (tryPickNote != null)
                 {
-
+                    if (myform.selectedInstrument != mySection.instrumentid)
+                    {
+                        myform.selectUIInstrument(mySection.instrumentid);
+                        myform.selectedNotes.Clear();
+                    }
                     myform.selectedNotes.Add(tryPickNote);
+                    myform.quickPlay(tryPickNote);
                 }
                 else
                     myform.selectedNotes.Clear();
@@ -51,6 +166,7 @@ namespace midiKeyboarder
                     myform.scrollTime = 0;
             }
             myform.renderSections();
+            this.Focus();
             
         }
 
@@ -144,11 +260,11 @@ namespace midiKeyboarder
 
             icp += row * 7;
 
-            float y = lerp(0, 38, renderPlane.Height, 0, 2 * icp + 1); //1 through 15
+            float y = lerp(0, 44, renderPlane.Height, 0, 2 * icp + 1); //1 through 15
             float x = lerp(0, 8, 0, renderPlane.Width, time);
             float xd = lerp(0, 8, 0, renderPlane.Width, time + duration);
 
-            return new RectangleF(x, y - 5, xd - x, 10);
+            return new RectangleF(x, y - 4, xd - x, 8);
 
         }
 

@@ -23,16 +23,18 @@ namespace midiKeyboarder
        public bool bass {get;set;}
        public bool flute {get; set;}
        public string targetKey{get;set;}
-
+       bool started = false;
        public void start()
        {
-
-           keybdx = new VirtualKeyboard();
-            keybdx = new InputManager.VirtualKeyboard();
-            keyQueue = new Queue<midikey>();
-            System.Threading.Thread keythreadx = new System.Threading.Thread(keythread);
-            keythreadx.Start();
-           
+           if (!started)
+           {
+               keybdx = new VirtualKeyboard();
+               keybdx = new InputManager.VirtualKeyboard();
+               keyQueue = new Queue<midikey>();
+               System.Threading.Thread keythreadx = new System.Threading.Thread(keythread);
+               keythreadx.Start();
+               started = true;
+           }
 
        }
 

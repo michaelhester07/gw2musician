@@ -20,6 +20,7 @@ namespace midiKeyboarder
            public  float time;
            public float duration;
            public float monitorOn;
+           public bool playing = false;
             public note()
            {
                pitch = "A0";

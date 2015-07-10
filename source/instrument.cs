@@ -40,16 +40,31 @@ namespace midiKeyboarder
         bool started = false;
         public void initKeyDriver()
         {
+            switch(mytype)
+            {
+                case instrumentType.standard:
+                    gw2KeyDriver = Form1.standardDriver;
+                    break;
+                case instrumentType.bass:
+                    gw2KeyDriver = Form1.bassDriver;
+                    break;
+                case instrumentType.flute:
+                    gw2KeyDriver = Form1.fluteDriver;
+                    break;
+                case instrumentType.drum:
+                    gw2KeyDriver = Form1.drumDriver;
+                    break;
+            }
             gw2KeyDriver = new KeyboardDriver();
             gw2KeyDriver.targetKey = "C";
             gw2KeyDriver.bass = mytype == instrumentType.bass;
             gw2KeyDriver.flute = mytype == instrumentType.flute;
             gw2KeyDriver.flat = false;
             gw2KeyDriver.transposeDirection = 0;
-            if(!started)
+            //if(!started)
                 
             gw2KeyDriver.start();
-            started = true;
+            //started = true;
 
         }
         public enum instrumentType
