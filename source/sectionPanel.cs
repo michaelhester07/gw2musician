@@ -16,6 +16,7 @@ namespace midiKeyboarder
         {
             InitializeComponent();
             renderPlane.MouseUp += renderPlane_MouseUp;
+            
         }
         public Form1 myform;
         void renderPlane_MouseUp(object sender, MouseEventArgs e)
@@ -25,13 +26,27 @@ namespace midiKeyboarder
             
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                myform.time = myform.scrollTime + 4 + t;
-                if (myform.time < 0)
-                    myform.time = 0;
+                var tryPickNote = pickNote(e);
+                if (tryPickNote != null)
+                {
+
+                    myform.selectedNotes.Add(tryPickNote);
+                }
+                else
+                    myform.selectedNotes.Clear();
+
+               
             }
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                myform.scrollTime = myform.scrollTime + t;
+                 myform.time = myform.scrollTime + 4 + t;
+                if (myform.time < 0)
+                    myform.time = 0;
+              
+            }
+            if(e.Button == System.Windows.Forms.MouseButtons.Middle)
+            {
+                  myform.scrollTime = myform.scrollTime + t;
                 if (myform.scrollTime < 0)
                     myform.scrollTime = 0;
             }
@@ -56,7 +71,10 @@ namespace midiKeyboarder
             foreach(var note in mySection.notes )
             {
                 var notebar = calculateNote(note.pitch, note.time - scrollTime, note.duration);
-                g.FillRectangle(Brushes.Green, notebar);
+                if (myform.selectedNotes.Contains(note))
+                    g.FillRectangle(Brushes.Orange, notebar);
+                else
+                    g.FillRectangle(Brushes.Green, notebar);
                 g.DrawRectangle(Pens.Black, notebar.X, notebar.Y, notebar.Width, notebar.Height);
             }
             var font = new System.Drawing.Font("Arial", 10);
@@ -88,6 +106,26 @@ namespace midiKeyboarder
 
         }
 
+        public section.note pickNote(MouseEventArgs e)
+        {
+            List<RectangleF> notes = new List<RectangleF>();
+            foreach (var note in mySection.notes)
+            {
+                var notebar = calculateNote(note.pitch, note.time - myform.scrollTime, note.duration);
+                notes.Add(notebar);
+
+             }
+            int found = -1;
+            for (int i = 0; i < notes.Count; i++)
+                if (notes[i].Contains(e.X, e.Y))
+                    found = i;
+            if (found >= 0)
+                return mySection.notes[found];
+            return null;
+                    
+
+        }
+
         float lerp(float a1, float a2, float b1, float b2, float a)
         {
             return b1 + (b2 - b1) / (a2 - a1) * (a - a1);
@@ -98,7 +136,15 @@ namespace midiKeyboarder
             //G3
            
             int icp = ("CDEFGAB").IndexOf(pitch[0]);
-            float y = lerp(0, 16, renderPlane.Height, 0, 2 * icp + 1); //1 through 15
+            int row = int.Parse("" + pitch[pitch.Length - 1]);
+            if (row >= 3)
+                row -= 3;
+            else
+                row--;
+
+            icp += row * 7;
+
+            float y = lerp(0, 38, renderPlane.Height, 0, 2 * icp + 1); //1 through 15
             float x = lerp(0, 8, 0, renderPlane.Width, time);
             float xd = lerp(0, 8, 0, renderPlane.Width, time + duration);
 
