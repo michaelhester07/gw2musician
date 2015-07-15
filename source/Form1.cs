@@ -18,7 +18,7 @@ namespace midiKeyboarder
         public static List<instrument> instruments;
 
        public int selectedInstrument = -1;
-        
+       public int renderRange = 2;
         MidiKeyboardInputDriver inputDriver;
         MultiBoxDriver mbDriver;
 
@@ -342,7 +342,7 @@ namespace midiKeyboarder
 
         float lastmidiRead = 0;
         Midi.Clock recordingClock;
-        int timesig = 4;
+       public  int timesig = 4;
         public void renderSections()
         {
             foreach(Control c in instrumentSectionList.Controls)
@@ -352,7 +352,7 @@ namespace midiKeyboarder
                     sp.drawSection(time, scrollTime, timesig);
 
             }
-            tickLabel.Text = time.ToString();
+            tickLabel.Text = string.Format("{0}.{1}.{2}", (int)(time / 4)+1, (int)(time % 4)+1, Math.Round(time - (int)time, 2)*100);
 
         }
 
@@ -517,9 +517,9 @@ namespace midiKeyboarder
 
                 time += deltaTime;
                 //sections[selectedInstrument]
-                tickLabel.Text = time.ToString();
-                if (time > 4)
-                    scrollTime = time - 4;
+                //tickLabel.Text = string.Format("{0}.{1}.{2}", (int)(time / 4), (int)(time %4), time - (time%4));
+                if (time > renderRange *2)
+                    scrollTime = time - renderRange * 2;
 
                 renderSections();
                 if(recording)
