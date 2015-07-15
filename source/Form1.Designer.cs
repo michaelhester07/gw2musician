@@ -372,7 +372,7 @@
             this.playTimer.Interval = 10;
             this.playTimer.Tick += new System.EventHandler(this.playTimer_Tick);
             // 
-<<<<<<< HEAD
+
             // toolStripLabel3
             // 
             this.toolStripLabel3.Name = "toolStripLabel3";
@@ -424,8 +424,7 @@
             this.cbMetronome.Text = "Play Metronome";
             this.cbMetronome.UseVisualStyleBackColor = true;
             // 
-=======
->>>>>>> origin/master
+
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
