@@ -12,6 +12,7 @@ namespace midiKeyboarder
 {
     public partial class Form1 : Form
     {
+       
 
         public static List<section> sections;
         public static List<instrument> instruments;
@@ -87,13 +88,6 @@ namespace midiKeyboarder
             renderSections();
         }
 
-
-        private void cbConnect_CheckedChanged(object sender, EventArgs e)
-        {
-           
-
-        }
-
         void inputDriver_NoteOff(Midi.NoteOffMessage msg)
         {
             //throw new NotImplementedException();
@@ -131,7 +125,7 @@ namespace midiKeyboarder
 
             }
 
-            if (!recording && !playing)
+            if (!recording )
             {
                 int oct = getNoteOctave(note);
                 if (selectedInstrument >= 0 && oct >= 3)
@@ -146,11 +140,6 @@ namespace midiKeyboarder
                 }
             }
 
-        }
-
-        private void cbConnectOutput_CheckedChanged(object sender, EventArgs e)
-        {
-            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -405,6 +394,12 @@ namespace midiKeyboarder
 
         protected override void OnClosed(EventArgs e)
         {
+            standardDriver.stop();
+            bassDriver.stop();
+            fluteDriver.stop();
+            drumDriver.stop();
+            Program.killAllThreads = true;
+
             base.OnClosed(e);
             Application.Exit();
         }
@@ -482,6 +477,36 @@ namespace midiKeyboarder
 
             monitor.SendNoteOff(Midi.Channel.Channel1, xn.PitchInOctave(pos), 0);
         }
+
+        //metronome stuff
+        int lastMetro = 0;
+        System.Media.SoundPlayer metronomeLow;
+        System.Media.SoundPlayer metronomeHigh;
+        void playMetro()
+        {
+            if (cbMetronome.Checked == false)
+                return;
+            if(metronomeLow == null)
+            {
+                metronomeLow = new System.Media.SoundPlayer("resources\\metronomeLow.wav");
+                metronomeHigh = new System.Media.SoundPlayer("resources\\metronomeHigh.wav");
+                
+
+            }
+            int currentMetro = (int)time;
+            if(currentMetro != lastMetro)
+            {
+                bool high = (currentMetro % timesig) == 0;
+                if (high)
+                    metronomeHigh.Play();
+                else
+                    metronomeLow.Play();
+                lastMetro = currentMetro;
+            }
+
+
+        }
+
         private void playTimer_Tick(object sender, EventArgs e)
         {
             if(playing)
@@ -505,6 +530,7 @@ namespace midiKeyboarder
 
 
                 }
+                playMetro();
                 if (!recording)
                 {
                     List<section.note> monitorNotesOff = new List<section.note>();
@@ -641,10 +667,7 @@ namespace midiKeyboarder
         public int addlength = 8;
         private void toolStripTextBox1_Click(object sender, EventArgs e)
         {
-            int outint;
-            if (int.TryParse(toolStripTextBox1.Text, out outint))
-                addlength = outint;
-            renderSections();
+
         }
         public int addOctave = 3;
         public float autoAdvance = 1 / 8.0f;

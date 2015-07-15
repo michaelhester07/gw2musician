@@ -21,3 +21,5 @@ C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.Properties.Resources.resources
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.sectionPanel.resources
 C:\Users\potato1\Documents\GitHub\gw2musician\source\obj\Release\midiKeyboarder.csproj.GenerateResource.Cache
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\resources\metronomeHigh.wav
+C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\resources\metronomeLow.wav

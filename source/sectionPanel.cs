@@ -184,14 +184,17 @@ namespace midiKeyboarder
            
             float timeline =  time;
             g.Clear(Color.Silver);
-            foreach(var note in mySection.notes )
+            lock (mySection.sectionLock)
             {
-                var notebar = calculateNote(note.pitch, note.time - scrollTime, note.duration);
-                if (myform.selectedNotes.Contains(note))
-                    g.FillRectangle(Brushes.Orange, notebar);
-                else
-                    g.FillRectangle(Brushes.Green, notebar);
-                g.DrawRectangle(Pens.Black, notebar.X, notebar.Y, notebar.Width, notebar.Height);
+                foreach (var note in mySection.notes)
+                {
+                    var notebar = calculateNote(note.pitch, note.time - scrollTime, note.duration);
+                    if (myform.selectedNotes.Contains(note))
+                        g.FillRectangle(Brushes.Orange, notebar);
+                    else
+                        g.FillRectangle(Brushes.Green, notebar);
+                    g.DrawRectangle(Pens.Black, notebar.X, notebar.Y, notebar.Width, notebar.Height);
+                }
             }
             var font = new System.Drawing.Font("Arial", 10);
             for(int i = 0; i < 36; i++)

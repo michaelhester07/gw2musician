@@ -29,25 +29,28 @@ namespace midiKeyboarder
            }
             //lol duration
         }
-
+        public object sectionLock;// = new object();
         public int instrumentid;
         public List<note> notes;
         public string name;
         public float starttime;
         public section ()
         {
+            sectionLock = new object();
             notes = new List<note>();
         }
 
         public note addNote(string pitch, float time, float duration)
         {
-            note n = new note();
-            n.pitch = pitch;
-            n.time = time;
-            n.duration = duration;
-            notes.Add(n);
-            return n;
-
+            lock (sectionLock)
+            {
+                note n = new note();
+                n.pitch = pitch;
+                n.time = time;
+                n.duration = duration;
+                notes.Add(n);
+                return n;
+            }
         }
         public void removeNote(int id)
         {

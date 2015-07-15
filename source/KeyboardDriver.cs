@@ -24,6 +24,7 @@ namespace midiKeyboarder
        public bool flute {get; set;}
        public string targetKey{get;set;}
        bool started = false;
+       System.Threading.Thread keythreadx;
        public void start()
        {
            if (!started)
@@ -31,13 +32,19 @@ namespace midiKeyboarder
                keybdx = new VirtualKeyboard();
                keybdx = new InputManager.VirtualKeyboard();
                keyQueue = new Queue<midikey>();
-               System.Threading.Thread keythreadx = new System.Threading.Thread(keythread);
+               kill = false;
+                keythreadx = new System.Threading.Thread(keythread);
                keythreadx.Start();
                started = true;
            }
 
        }
-
+       public void stop()
+       {
+           kill = true;
+           if(keythreadx != null)
+             keythreadx.Abort();
+       }
 
         public void play(string note)
         {
@@ -229,6 +236,8 @@ namespace midiKeyboarder
 
             while (!kill)
             {
+                if (Program.killAllThreads)
+                    return;
                 midikey k = midikey.None;
                 lock (locker)
                 {

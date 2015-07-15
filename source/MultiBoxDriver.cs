@@ -24,7 +24,12 @@ namespace midiKeyboarder
             {
                 if(xclient.Connected)
                 {
-                    xclient.GetStream().Write(ASCIIEncoding.ASCII.GetBytes(msg), 0, msg.Length);
+                    try
+                    {
+                        System.Diagnostics.Trace.WriteLine("send to client " + msg);
+                        xclient.GetStream().Write(ASCIIEncoding.ASCII.GetBytes(msg), 0, msg.Length);
+                    }
+                    catch { }
                 }
 
             }

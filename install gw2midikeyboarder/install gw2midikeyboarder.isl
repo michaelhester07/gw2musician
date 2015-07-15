@@ -52,7 +52,7 @@
 	<summary>
 		<codepage>1252</codepage>
 		<title>Installation Database</title>
-		<subject/>
+		<subject></subject>
 		<author>##ID_STRING3##</author>
 		<keywords>Installer,MSI,Database</keywords>
 		<comments>Contact:  Your local administrator</comments>
@@ -341,6 +341,7 @@
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{67741F80-1ED9-470B-87CE-F23D90EE9984}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{EFAE7764-3EBF-4994-A16A-E30DEA2279D8}</td><td>RESOURCES</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>InputManager.dll</td><td>{9A668044-1791-42FD-96BC-77030103EAEF}</td><td>INSTALLDIR</td><td>2</td><td/><td>inputmanager.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>InputSimulator.dll</td><td>{F140B6C8-5114-451F-8EB7-6C03EB700E0D}</td><td>INSTALLDIR</td><td>2</td><td/><td>inputsimulator.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Midi.dll</td><td>{EB57D16B-DF77-4B1B-B463-BAA64091F1EC}</td><td>INSTALLDIR</td><td>2</td><td/><td>midi.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1160,6 +1161,7 @@
 		<row><td>ProgramFiles64Folder</td><td>TARGETDIR</td><td>.:Prog64~1|Program Files 64</td><td/><td>0</td><td/></row>
 		<row><td>ProgramFilesFolder</td><td>TARGETDIR</td><td>.:PROGRA~1|program files</td><td/><td>0</td><td/></row>
 		<row><td>ProgramMenuFolder</td><td>TARGETDIR</td><td>.:Programs</td><td/><td>3</td><td/></row>
+		<row><td>RESOURCES</td><td>INSTALLDIR</td><td>RESOUR~1|Resources</td><td/><td>0</td><td/></row>
 		<row><td>RecentFolder</td><td>TARGETDIR</td><td>.:Recent</td><td/><td>0</td><td/></row>
 		<row><td>SendToFolder</td><td>TARGETDIR</td><td>.:SendTo</td><td/><td>3</td><td/></row>
 		<row><td>StartMenuFolder</td><td>TARGETDIR</td><td>.:STARTM~1|Start Menu</td><td/><td>3</td><td/></row>
@@ -1867,6 +1869,7 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>AlwaysInstall</td><td>InputManager.dll</td></row>
 		<row><td>AlwaysInstall</td><td>InputSimulator.dll</td></row>
 		<row><td>AlwaysInstall</td><td>Midi.dll</td></row>
@@ -1887,6 +1890,8 @@
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>inputmanager.dll</td><td>InputManager.dll</td><td>INPUTM~1.DLL|InputManager.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\InputManager.dll</td><td>1</td><td/></row>
 		<row><td>inputsimulator.dll</td><td>InputSimulator.dll</td><td>INPUTS~1.DLL|InputSimulator.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\InputSimulator.dll</td><td>1</td><td/></row>
+		<row><td>metronomehigh.wav</td><td>ISX_DEFAULTCOMPONENT1</td><td>METRON~1.WAV|metronomeHigh.wav</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\potato1\Documents\GitHub\gw2musician\source\resources\metronomeHigh.wav</td><td>1</td><td/></row>
+		<row><td>metronomelow.wav</td><td>ISX_DEFAULTCOMPONENT1</td><td>METRON~1.WAV|metronomeLow.wav</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\potato1\Documents\GitHub\gw2musician\source\resources\metronomeLow.wav</td><td>1</td><td/></row>
 		<row><td>midi.dll</td><td>Midi.dll</td><td>Midi.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\Midi.dll</td><td>1</td><td/></row>
 		<row><td>midikeyboarder.exe</td><td>midiKeyboarder.exe</td><td>MIDIKE~1.EXE|midiKeyboarder.exe</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\midiKeyboarder.exe</td><td>1</td><td/></row>
 		<row><td>midikeyboarder.exe.config</td><td>ISX_DEFAULTCOMPONENT</td><td>MIDIKE~1.CON|midiKeyboarder.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\potato1\Documents\GitHub\gw2musician\source\bin\Release\midiKeyboarder.exe.config</td><td>1</td><td/></row>
@@ -2034,6 +2039,7 @@
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_E06CD342_07FA_46EE_A74A_494076CA6E72_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_6EE553C4_0590_45E4_B647_FA89DFA6B6F4_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>InputManager.dll</td><td/><td/><td>_60965B23_766E_4B87_A94A_5B3254F5845F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>InputSimulator.dll</td><td/><td/><td>_2D5E02C7_7B10_46DE_8C29_1FB914758F8D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Midi.dll</td><td/><td/><td>_899FAF29_56B2_44D5_8ED0_1596B773979F_FILTER</td><td/><td/><td/><td/></row>
@@ -4000,7 +4006,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{661F12DD-6F8C-42CE-A1CB-F8CBF24F9077}</td></row>
 		<row><td>ISUSSignature</td><td>{8E4483BE-2A62-4990-AFB1-5E9A6937B448}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>

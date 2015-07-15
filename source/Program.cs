@@ -9,9 +9,15 @@ namespace midiKeyboarder
     static class Program
     {
         public static KeyboardDriver gw2KeyDriver;
+        public static bool killAllThreads = false;
+        
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// p
+        /// 
+
+
         [STAThread]
         static void Main()
         {

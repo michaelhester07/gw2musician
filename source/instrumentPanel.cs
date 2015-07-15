@@ -51,8 +51,11 @@ namespace midiKeyboarder
                 {
                     Form1.instruments[instrumentID].connect();
                 }
-                catch
-                { cbRemote.Checked = false; }
+                catch (Exception exc)
+                { cbRemote.Checked = false;
+
+                System.Diagnostics.Trace.WriteLine(exc.ToString());
+                }
             }
             else
                 Form1.instruments[instrumentID].disconnect();

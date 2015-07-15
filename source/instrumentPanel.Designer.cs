@@ -63,9 +63,19 @@
             // nudPort
             // 
             this.nudPort.Location = new System.Drawing.Point(4, 113);
+            this.nudPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.nudPort.Name = "nudPort";
             this.nudPort.Size = new System.Drawing.Size(143, 22);
             this.nudPort.TabIndex = 2;
+            this.nudPort.Value = new decimal(new int[] {
+            3333,
+            0,
+            0,
+            0});
             this.nudPort.ValueChanged += new System.EventHandler(this.nudPort_ValueChanged);
             // 
             // cbPlay

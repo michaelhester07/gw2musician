@@ -61,6 +61,7 @@
             this.labOctave = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
             this.tbAutoAdvance = new System.Windows.Forms.ToolStripTextBox();
+            this.cbMetronome = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -171,6 +172,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cbMetronome);
             this.panel1.Controls.Add(this.toolStrip2);
             this.panel1.Controls.Add(this.cbConnectOutput);
             this.panel1.Controls.Add(this.cbxOutputDevices);
@@ -279,6 +281,7 @@
             this.tbTimeSig.Size = new System.Drawing.Size(100, 27);
             this.tbTimeSig.Text = "4";
             this.tbTimeSig.Click += new System.EventHandler(this.tbTimeSig_Click);
+            this.tbTimeSig.TextChanged += new System.EventHandler(this.tbTimeSig_Click);
             // 
             // cbConnectOutput
             // 
@@ -338,7 +341,8 @@
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 27);
             this.toolStripTextBox1.Text = "8";
-            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            this.toolStripTextBox1.Click += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_Click);
             // 
             // toolStripLabel4
             // 
@@ -364,6 +368,18 @@
             this.tbAutoAdvance.Size = new System.Drawing.Size(100, 27);
             this.tbAutoAdvance.Text = "8";
             this.tbAutoAdvance.Click += new System.EventHandler(this.tbAutoAdvance_Click);
+            this.tbAutoAdvance.TextChanged += new System.EventHandler(this.tbAutoAdvance_Click);
+            // 
+            // cbMetronome
+            // 
+            this.cbMetronome.AutoSize = true;
+            this.cbMetronome.Location = new System.Drawing.Point(534, 4);
+            this.cbMetronome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbMetronome.Name = "cbMetronome";
+            this.cbMetronome.Size = new System.Drawing.Size(132, 21);
+            this.cbMetronome.TabIndex = 4;
+            this.cbMetronome.Text = "Play Metronome";
+            this.cbMetronome.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -422,6 +438,7 @@
         public System.Windows.Forms.ToolStripLabel labOctave;
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripTextBox tbAutoAdvance;
+        private System.Windows.Forms.CheckBox cbMetronome;
     }
 }
 
