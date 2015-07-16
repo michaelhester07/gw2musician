@@ -335,8 +335,8 @@ namespace midiKeyboarder
                 highlightInstrument(ip2);
         }
 
-        bool recording = false;
-        bool playing = false;
+        public bool recording = false;
+        public bool playing = false;
         public float time = 0;
         public float scrollTime = 0;
 
@@ -352,7 +352,7 @@ namespace midiKeyboarder
                     sp.drawSection(time, scrollTime, timesig);
 
             }
-            tickLabel.Text = string.Format("{0}.{1}.{2}", (int)(time / 4)+1, (int)(time % 4)+1, Math.Round(time - (int)time, 2)*100);
+            tickLabel.Text = string.Format("{0}.{1}.{2}", (int)(time / timesig) + 1, (int)(time % timesig) + 1, Math.Round(time - (int)time, 2) * 100);
 
         }
 
@@ -364,7 +364,8 @@ namespace midiKeyboarder
                 playing = true;
                 recording = true;
                 recordingClock = new Midi.Clock(float.Parse(tbBPM.Text));
-                time -= 4;
+                lastmidiRead = 0;
+               // time -= 4;
                 recordingClock.Start();
                 playTimer.Start();
             }
@@ -383,7 +384,7 @@ namespace midiKeyboarder
             if (Guildwars2.Length != 0)
                 SetForegroundWindow(Guildwars2[0].MainWindowHandle);
 
-
+            lastmidiRead = 0;
             btnSeekStart.Image = Properties.Resources.stop;
             playing = true;
             recordingClock = new Midi.Clock(float.Parse(tbBPM.Text));

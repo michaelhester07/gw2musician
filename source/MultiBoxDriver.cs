@@ -15,7 +15,10 @@ namespace midiKeyboarder
 
         public void connectClient(string ip, int port)
         {
-            xclient = new System.Net.Sockets.TcpClient(ip, port);
+            xclient = new System.Net.Sockets.TcpClient();
+
+            System.Net.IPAddress addr = System.Net.IPAddress.Parse(ip);
+            xclient.Connect(new System.Net.IPEndPoint(addr, port));
             
         }
         public void sendMsg(string msg)

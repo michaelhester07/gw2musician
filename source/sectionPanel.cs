@@ -16,10 +16,67 @@ namespace midiKeyboarder
         {
             InitializeComponent();
             renderPlane.MouseUp += renderPlane_MouseUp;
+            renderPlane.MouseMove += renderPlane_MouseMove ;
+            renderPlane.MouseDown += renderPlane_MouseDown;
+
             this.KeyUp += sectionPanel_KeyUp;
             renderPlane.PreviewKeyDown += renderPlane_PreviewKeyDown;
             
             
+        }
+        MouseEventArgs origin;
+        MouseEventArgs dragLast;
+        bool dragging = false;
+        bool down = false;
+        void renderPlane_MouseDown(object sender, MouseEventArgs e)
+        {
+            origin = e;
+            down = true;
+        }
+        void renderPlane_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (down)
+            {
+                if (!dragging)
+                {
+                    int dx = e.X - origin.X;
+                    int dy = e.Y - origin.Y;
+                    if (Math.Abs(dx) > 15 || Math.Abs(dy) > 15)
+                    {
+                        dragging = true;
+                        dragLast = origin;
+                    }
+
+
+                }
+                if(dragging)
+                {
+                    int dx = e.X - dragLast.X;
+                    int dy = e.Y - dragLast.Y;
+                    float deltaTime = lerp(0, renderPlane.Width, 0, myform.renderRange * 4, dx);
+                    switch(e.Button)
+                    {
+                        case System.Windows.Forms.MouseButtons.Left:
+                            //dragging the selected notes
+                            foreach(var note in myform.selectedNotes)
+                            {
+                                note.time += deltaTime;
+                            }
+                            
+                            break;
+                        case System.Windows.Forms.MouseButtons.Middle:
+                            //dragging the render zone
+                            myform.scrollTime -= deltaTime;
+                            break;
+                        case System.Windows.Forms.MouseButtons.Right:
+                            //dragging time
+                            myform.time += deltaTime;
+                            break;
+                    }
+                    myform.renderSections();
+                    dragLast = e;
+                }
+            }
         }
         protected override void OnKeyUp(KeyEventArgs e)
         {
@@ -31,6 +88,8 @@ namespace midiKeyboarder
         }
         void addNote(string pitch)
         {
+            if (myform.playing && !myform.recording)
+                return;
             section.note newnote = new section.note();
             newnote.duration = 1 / (float)myform.addlength;
             newnote.time = myform.time;
@@ -38,9 +97,15 @@ namespace midiKeyboarder
             mySection.notes.Add(newnote);
             myform.quickPlay(newnote);
             myform.time += myform.autoAdvance * 4;
+            if (myform.time > myform.renderRange * 2)
+                myform.scrollTime = myform.time - myform.renderRange * 2;
             myform.renderSections();
 
         }
+
+
+
+
         void sectionPanel_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.C)
@@ -145,12 +210,17 @@ namespace midiKeyboarder
         public Form1 myform;
         void renderPlane_MouseUp(object sender, MouseEventArgs e)
         {
+            down = false;
             int beats = myform.timesig;
             int nBars = myform.renderRange;
             int nBeats = nBars * beats;
             int nQuarterBeats = nBeats * 4;
-            float t = lerp(0, renderPlane.Width, -nBeats / 2, nBeats/2, e.X);
-
+            float t = lerp(0, renderPlane.Width, -nBeats / 2, nBeats / 2, e.X);
+            if(dragging)
+            {
+                dragging = false;
+                return;
+            }
             
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
@@ -163,7 +233,8 @@ namespace midiKeyboarder
                         myform.selectUIInstrument(mySection.instrumentid);
                         myform.selectedNotes.Clear();
                     }
-                    myform.selectedNotes.Add(tryPickNote);
+                    if(!myform.selectedNotes.Contains(tryPickNote))
+                        myform.selectedNotes.Add(tryPickNote);
                     myform.quickPlay(tryPickNote);
                 }
                 else
@@ -218,24 +289,29 @@ namespace midiKeyboarder
             var font = new System.Drawing.Font("Arial", 10);
 
             int nBars = myform.renderRange;
-            int nBeats = nBars * beats;
-            int nQuarterBeats = nBeats * 4;
+            int nHalfRange = nBars *2;
+            int nBeats = myform.renderRange * 4;
+            int displayStart = (int)(scrollTime - nHalfRange);
+            int displayEnd = (int)(scrollTime + nHalfRange);
 
+            //full range of bars loaded...
+            //subdivide it by 4 for beats, then 4 for quarter beats
+            int tickStart = displayStart *4 ;
+            int tickEnd = displayEnd *4;
 
-
-            for (int i = 0; i <= nQuarterBeats; i++)
+            for (int i = (int)scrollTime; i <= (int)scrollTime *4+ beats * 32; i++)
             {
-                float t = lerp(0, nQuarterBeats, ((int)scrollTime), ((int)scrollTime) + (nBeats) , i);
-                int it = ((int)(t));
-                bool largeTick = (i % 4) == 0;
-                float tx = lerp(0, myform.renderRange * 4+1, 0, renderPlane.Width, t - scrollTime);
+
+                int ti = i/4;
+                bool largeTick = (i % beats) == 0;
+                float tx = lerp(0, myform.renderRange * beats, 0, renderPlane.Width, ti - scrollTime);
                 int iheight = 10;
                 if (largeTick) iheight = 20;
                 g.DrawLine(((largeTick)?(Pens.DarkGray):(Pens.LightGray)),tx,0,tx, iheight);
                 if (largeTick)
                 {
-                    int rt = it / beats + 1;
-                    int bt = it % beats + 1;
+                    int rt = ti / beats + 1;
+                    int bt = ti % beats + 1;
                     if(myform.renderRange < 6 || bt == 1)
                     g.DrawString(rt.ToString() + "." + bt.ToString(), font, Brushes.Black, new PointF(tx + 5, 10));
                 }
@@ -243,7 +319,7 @@ namespace midiKeyboarder
             }
 
 
-            float timelinex = lerp(0, nBeats, 0, renderPlane.Width, timeline - scrollTime);
+            float timelinex = lerp(0, myform.renderRange * myform.timesig, 0, renderPlane.Width, timeline - scrollTime);
 
             g.DrawLine(Pens.Red, timelinex, 0, timelinex, renderPlane.Height);
             g.Dispose();
@@ -291,8 +367,8 @@ namespace midiKeyboarder
             icp += row * 7;
 
             float y = lerp(0, 44, renderPlane.Height, 0, 2 * icp + 1); //1 through 15
-            float x = lerp(0, myform.renderRange * 4, 0, renderPlane.Width, time);
-            float xd = lerp(0, myform.renderRange * 4, 0, renderPlane.Width, time + duration);
+            float x = lerp(0, myform.renderRange  * myform.timesig, 0, renderPlane.Width, time);
+            float xd = lerp(0, myform.renderRange  * myform.timesig, 0, renderPlane.Width, time + duration);
 
             return new RectangleF(x, y - 4, xd - x, 8);
 
