@@ -55,6 +55,7 @@ namespace midiKeyboarder
         }
         public void delete()
         {
+            sections[selectedInstrument].pushUndo();
             foreach(var n in selectedNotes)
             {
                 if (selectedInstrument >= 0)
@@ -73,6 +74,8 @@ namespace midiKeyboarder
             if (noteClipboard.Count == 0)
                 return;
             float timeoffset = time - noteClipboard[0].time;
+            if(selectedInstrument >= 0)
+                sections[selectedInstrument].pushUndo();
             foreach (var n in noteClipboard)
             {
                 if (selectedInstrument >= 0)
@@ -87,7 +90,12 @@ namespace midiKeyboarder
             }
             renderSections();
         }
-
+        public void undo()
+        {
+            if (selectedInstrument >= 0)
+                sections[selectedInstrument].popUndo();
+            renderSections();
+        }
         void inputDriver_NoteOff(Midi.NoteOffMessage msg)
         {
             //throw new NotImplementedException();
@@ -343,6 +351,8 @@ namespace midiKeyboarder
         }
         private void btnRemoveInstrument_Click(object sender, EventArgs e)
         {
+            if (selectedInstrument < 0)
+                return;
             var ip = selectInstrument(selectedInstrument);
             instruments.RemoveAt(selectedInstrument);
             sections.RemoveAt(selectedInstrument);

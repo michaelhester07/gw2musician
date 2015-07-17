@@ -33,6 +33,7 @@ namespace midiKeyboarder
             origin = e;
             down = true;
         }
+        bool drawBox = false;
         void renderPlane_MouseMove(object sender, MouseEventArgs e)
         {
             if (down)
@@ -45,6 +46,11 @@ namespace midiKeyboarder
                     {
                         dragging = true;
                         dragLast = origin;
+                        if (e.Button == System.Windows.Forms.MouseButtons.Left && myform.selectedNotes.Count > 0)
+
+                            mySection.pushUndo();
+                        else if(e.Button == System.Windows.Forms.MouseButtons.Left)
+                            drawBox = true; //selecting notes with a box
                     }
 
 
@@ -110,11 +116,25 @@ namespace midiKeyboarder
         void sectionPanel_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.C)
+            {
+               
                 myform.copy();
+            }
             if (e.Control && e.KeyCode == Keys.X)
+            {
+               
                 myform.cut();
+            }
             if (e.Control && e.KeyCode == Keys.V)
+            {
+              
                 myform.paste();
+            }
+            if (e.Control && e.KeyCode == Keys.Z)
+            {
+
+                myform.undo();
+            }
             if (e.KeyCode == Keys.Delete)
                 myform.delete();
             if(e.KeyCode == Keys.Add)
@@ -149,6 +169,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D1:
                     {
+                        mySection.pushUndo();
                         string pitch = "C" + myform.addOctave.ToString();
 
                         addNote(pitch);
@@ -156,6 +177,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D2:
                     {
+                        mySection.pushUndo();
                         string pitch = "D" + myform.addOctave.ToString();
 
                         addNote(pitch);
@@ -163,6 +185,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D3:
                     {
+                        mySection.pushUndo();
                         string pitch = "E" + myform.addOctave.ToString();
 
                         addNote(pitch);
@@ -170,6 +193,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D4:
                     {
+                        mySection.pushUndo();
                         string pitch = "F" + myform.addOctave.ToString();
 
                         addNote(pitch);
@@ -177,6 +201,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D5:
                     {
+                        mySection.pushUndo();
                         string pitch = "G" + myform.addOctave.ToString();
 
                         addNote(pitch);
@@ -184,6 +209,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D6:
                     {
+                        mySection.pushUndo();
                         string pitch = "A" + myform.addOctave.ToString();
 
                         addNote(pitch);
@@ -191,6 +217,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D7:
                     {
+                        mySection.pushUndo();
                         string pitch = "B" + myform.addOctave.ToString();
 
                         addNote(pitch);
@@ -198,6 +225,7 @@ namespace midiKeyboarder
                     break;
                 case Keys.D8:
                     {
+                        mySection.pushUndo();
                         string pitch = "C" + (myform.addOctave+1).ToString();
 
                         addNote(pitch);
@@ -217,7 +245,7 @@ namespace midiKeyboarder
             int nBeats = nBars * beats;
             int nQuarterBeats = nBeats * 4;
             float t = lerp(0, renderPlane.Width, -nBeats / 2, nBeats / 2, e.X);
-            if(dragging)
+            if (dragging && !drawBox)
             {
                 dragging = false;
                 return;
@@ -226,24 +254,50 @@ namespace midiKeyboarder
                 return;
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                
-                var tryPickNote = pickNote(e);
-                if (tryPickNote != null)
+                if (drawBox)
                 {
                     if (myform.selectedInstrument != mySection.instrumentid)
                     {
                         myform.selectUIInstrument(mySection.instrumentid);
                         myform.selectedNotes.Clear();
                     }
-                    if(!myform.selectedNotes.Contains(tryPickNote))
-                        myform.selectedNotes.Add(tryPickNote);
-                    myform.quickPlay(tryPickNote);
+                    //pick notes in the box
+                    RectangleF rect = new RectangleF(Math.Min(origin.X, dragLast.X), Math.Min( origin.Y, dragLast.Y), Math.Abs(dragLast.X - origin.X), Math.Abs( dragLast.Y - origin.Y));
+                    List<RectangleF> notes = new List<RectangleF>();
+                    foreach (var note in mySection.notes)
+                    {
+                        var notebar = calculateNote(note.pitch, note.time - myform.scrollTime, note.duration);
+                        notes.Add(notebar);
+
+                    }
+                    for (int i = 0; i < notes.Count; i++)
+                        if (rect.Contains(notes[i]))
+                            if (!myform.selectedNotes.Contains(mySection.notes[i]))
+                                myform.selectedNotes.Add(mySection.notes[i]);
+                    drawBox = false;
                 }
                 else
-                    myform.selectedNotes.Clear();
+                {
 
+
+                    var tryPickNote = pickNote(e);
+                    if (tryPickNote != null)
+                    {
+                        if (myform.selectedInstrument != mySection.instrumentid)
+                        {
+                            myform.selectUIInstrument(mySection.instrumentid);
+                            myform.selectedNotes.Clear();
+                        }
+                        if (!myform.selectedNotes.Contains(tryPickNote))
+                            myform.selectedNotes.Add(tryPickNote);
+                        myform.quickPlay(tryPickNote);
+                    }
+                    else
+                        myform.selectedNotes.Clear();
+                }
                
             }
+           
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                  myform.time = myform.scrollTime + myform.renderRange * 2 + t;
@@ -331,6 +385,12 @@ namespace midiKeyboarder
 
 
             float timelinex = lerp(0, myform.renderRange * myform.timesig, 0, renderPlane.Width, timeline - scrollTime);
+            if (drawBox)
+            {
+                Rectangle rect = new Rectangle(Math.Min(origin.X, dragLast.X), Math.Min(origin.Y, dragLast.Y), Math.Abs(dragLast.X - origin.X), Math.Abs(dragLast.Y - origin.Y));
+                g.DrawRectangle(Pens.Green, rect);
+            }
+
 
             g.DrawLine(Pens.Red, timelinex, 0, timelinex, renderPlane.Height);
             g.Dispose();
@@ -342,6 +402,8 @@ namespace midiKeyboarder
             }
             else
                 renderPlane.Image = (Bitmap)renderme.Clone();
+
+           
 
         }
         delegate void updatePlaneImageDelegate(Bitmap b);

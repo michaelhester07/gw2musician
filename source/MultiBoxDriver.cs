@@ -21,21 +21,27 @@ namespace midiKeyboarder
             xclient.Connect(new System.Net.IPEndPoint(addr, port));
             
         }
-        public void sendMsg(string msg)
+        public bool sendMsg(string msg)
         {
             if(xclient != null)
             {
-                if(xclient.Connected)
+                if (xclient.Connected)
                 {
                     try
                     {
                         System.Diagnostics.Trace.WriteLine("send to client " + msg);
                         xclient.GetStream().Write(ASCIIEncoding.ASCII.GetBytes(msg), 0, msg.Length);
                     }
-                    catch { }
+                    catch
+                    {
+                        return false;
+                    }
                 }
+                else
+                    return false;
 
             }
+            return true;
 
         }
         public void closeConnection()

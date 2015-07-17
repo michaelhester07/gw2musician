@@ -34,6 +34,9 @@ namespace midiKeyboarder
             {
                 myInstrument.local = true;
                 myInstrument.initKeyDriver();
+                if (cbMboxServer.Checked)
+                    myInstrument.setMultiboxDriver();
+                    
             }
             else
             {

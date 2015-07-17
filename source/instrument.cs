@@ -21,6 +21,11 @@ namespace midiKeyboarder
             client.start(port);
             client.keybddriver = gw2KeyDriver;
         }
+        public void setMultiboxDriver()
+        {
+            if (client != null)
+                client.keybddriver = gw2KeyDriver;
+        }
         public void stopServer()
         {
             client.stop();
@@ -33,6 +38,7 @@ namespace midiKeyboarder
             else if (connected)
             {
                 client.sendMsg(note);
+                    
             }
         }
         public instrument()

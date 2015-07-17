@@ -32,14 +32,46 @@ namespace midiKeyboarder
         public object sectionLock;// = new object();
         public int instrumentid;
         public List<note> notes;
+
+        public Stack<List<note>> undo;
+
         public string name;
         public float starttime;
         public section ()
         {
             sectionLock = new object();
             notes = new List<note>();
+            undo = new Stack<List<note>>();
         }
-
+        public void pushUndo()
+        {
+            List<note> currentState = new List<note>();
+            foreach(note n in notes)
+            {
+                note c = new note();
+                c.duration = n.duration;
+                c.pitch = n.pitch;
+                c.time = n.time;
+                currentState.Add(c);
+            }
+            undo.Push(currentState);
+        }
+        public void popUndo()
+        {
+            if (undo.Count > 0)
+            {
+                var lastState = undo.Pop();
+                notes.Clear();
+                foreach(note n  in lastState)
+                {
+                    note c = new note();
+                    c.duration = n.duration;
+                    c.pitch = n.pitch;
+                    c.time = n.time;
+                    notes.Add(c);
+                }
+            }
+        }
         public note addNote(string pitch, float time, float duration)
         {
             lock (sectionLock)
