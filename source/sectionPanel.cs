@@ -99,6 +99,7 @@ namespace midiKeyboarder
             myform.time += myform.autoAdvance * 4;
             if (myform.time > myform.renderRange * 2)
                 myform.scrollTime = myform.time - myform.renderRange * 2;
+           if(myform.playing == false) //it will render anyway if we're recording
             myform.renderSections();
 
         }
@@ -221,7 +222,8 @@ namespace midiKeyboarder
                 dragging = false;
                 return;
             }
-            
+            if (myform.playing)
+                return;
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 
@@ -262,14 +264,23 @@ namespace midiKeyboarder
 
         public int mysectionid;
         public section mySection { get { return Form1.sections[mysectionid]; } }
+        Bitmap renderme;
+        delegate void invokedraw(float time, float scrolltime, int beats);
         public void drawSection( float time, float scrollTime, int beats)
         {
             //mysectionid = id;
-            
+            //if(this.InvokeRequired)
+            //{
+            //    invokedraw drawme = new invokedraw(drawSection);
+            //    this.BeginInvoke(drawme, time, scrollTime, beats);
+            //    return;
+
+            //}
             //the second width is 8 bars
             //notes draw from C to C, bottom to top
-            Bitmap temp = new Bitmap(renderPlane.Width, renderPlane.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            Graphics g = Graphics.FromImage(temp);
+            if(renderme == null)
+                renderme = new Bitmap(renderPlane.Width, renderPlane.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            Graphics g = Graphics.FromImage(renderme);
             //g.TranslateTransform(-scrollTime, 0);
            
             float timeline =  time;
@@ -323,9 +334,14 @@ namespace midiKeyboarder
 
             g.DrawLine(Pens.Red, timelinex, 0, timelinex, renderPlane.Height);
             g.Dispose();
-            //renderPlane.Image = (Bitmap)temp.Clone();
-            updatePlaneImageDelegate del = new updatePlaneImageDelegate(updatePlaneImage);
-            this.BeginInvoke(del, (Bitmap)temp.Clone());
+            //renderPlane.Image = (Bitmap)renderme; ;
+            if (this.InvokeRequired)
+            {
+                updatePlaneImageDelegate del = new updatePlaneImageDelegate(updatePlaneImage);
+                this.BeginInvoke(del, (Bitmap)renderme.Clone());
+            }
+            else
+                renderPlane.Image = (Bitmap)renderme.Clone();
 
         }
         delegate void updatePlaneImageDelegate(Bitmap b);

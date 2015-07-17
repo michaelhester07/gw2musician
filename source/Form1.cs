@@ -167,9 +167,11 @@ namespace midiKeyboarder
 
         void playThread(object o)
         {
-            while(!killPlayThread)
+            while (!Program.killAllThreads)
             {
                 playTimer_Tick(null, null);
+                if (!playing)
+                    System.Threading.Thread.Sleep(50);
             }
 
         }
@@ -417,7 +419,7 @@ namespace midiKeyboarder
           
             recordingClock = new Midi.Clock(float.Parse(tbBPM.Text));
             recordingClock.Start();
-          //  playTimer.Start();
+           // playTimer.Start();
             monitorNotesOn.Clear();
             playing = true;
         }
