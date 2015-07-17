@@ -34,6 +34,7 @@ namespace midiKeyboarder
                keyQueue = new Queue<midikey>();
                kill = false;
                 keythreadx = new System.Threading.Thread(keythread);
+                keythreadx.Name = "pc keyboard output thread";
                keythreadx.Start();
                started = true;
            }
@@ -233,8 +234,8 @@ namespace midiKeyboarder
 
         void keythread(object o)
         {
-
-            while (!kill)
+            System.Diagnostics.Trace.WriteLine("Keythread started with id " + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
+            while (!kill && ! Program.killAllThreads)
             {
                 if (Program.killAllThreads)
                     return;

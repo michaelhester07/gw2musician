@@ -12,9 +12,12 @@ namespace midiKeyboarder
         
         System.Net.Sockets.TcpClient xclient;
         System.Net.Sockets.TcpListener server;
-
+        string myip;
+        int myport;
         public void connectClient(string ip, int port)
         {
+            myip = ip;
+            myport = port;
             xclient = new System.Net.Sockets.TcpClient();
 
             System.Net.IPAddress addr = System.Net.IPAddress.Parse(ip);
@@ -34,7 +37,14 @@ namespace midiKeyboarder
                     }
                     catch
                     {
-                        return false;
+                        //restart the connection if theres a problem
+                        try
+                        {
+                            xclient.Close();
+                        }
+                        catch { }
+
+                        connectClient(myip, myport);
                     }
                 }
                 else
@@ -79,17 +89,24 @@ namespace midiKeyboarder
             //G1
             while (client.Connected)
             {
-                string smsg;
-                byte[] msg = new byte[256];
-                int len = client.GetStream().Read(msg, 0, 256);
-                if (msg[0] == 0) continue;
-                smsg = ASCIIEncoding.ASCII.GetString(msg);
-               
-                System.Diagnostics.Trace.WriteLine("recv from server " + smsg);
-                if (smsg != string.Empty)
+                try
                 {
-                    if (keybddriver != null)
-                        keybddriver.play(smsg);
+                    string smsg;
+                    byte[] msg = new byte[256];
+                    int len = client.GetStream().Read(msg, 0, 256);
+                    if (msg[0] == 0) continue;
+                    smsg = ASCIIEncoding.ASCII.GetString(msg);
+
+                    System.Diagnostics.Trace.WriteLine("recv from server " + smsg);
+                    if (smsg != string.Empty)
+                    {
+                        if (keybddriver != null)
+                            keybddriver.play(smsg);
+                    }
+                }
+                catch
+                {
+                    return;
                 }
             }
         }

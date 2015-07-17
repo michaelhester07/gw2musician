@@ -24,6 +24,7 @@ namespace midiKeyboarder
         {
             instrumentID = id;
             tbIp.Text = Form1.instruments[instrumentID].ip;
+            nudPort.Value = myInstrument.port;
             cbxType.SelectedIndex = (int)Form1.instruments[instrumentID].mytype;
 
 

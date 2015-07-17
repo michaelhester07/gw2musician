@@ -46,33 +46,36 @@
             "flute",
             "bass",
             "drum"});
-            this.cbxType.Location = new System.Drawing.Point(4, 3);
+            this.cbxType.Location = new System.Drawing.Point(3, 2);
+            this.cbxType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbxType.Name = "cbxType";
-            this.cbxType.Size = new System.Drawing.Size(144, 24);
+            this.cbxType.Size = new System.Drawing.Size(109, 21);
             this.cbxType.TabIndex = 0;
             this.cbxType.SelectedIndexChanged += new System.EventHandler(this.cbxType_SelectedIndexChanged);
             // 
             // tbIp
             // 
-            this.tbIp.Location = new System.Drawing.Point(3, 84);
+            this.tbIp.Location = new System.Drawing.Point(2, 68);
+            this.tbIp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbIp.Name = "tbIp";
-            this.tbIp.Size = new System.Drawing.Size(144, 22);
+            this.tbIp.Size = new System.Drawing.Size(109, 20);
             this.tbIp.TabIndex = 1;
             this.tbIp.TextChanged += new System.EventHandler(this.tbIp_TextChanged);
             // 
             // nudPort
             // 
-            this.nudPort.Location = new System.Drawing.Point(4, 113);
+            this.nudPort.Location = new System.Drawing.Point(3, 92);
+            this.nudPort.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nudPort.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
             this.nudPort.Name = "nudPort";
-            this.nudPort.Size = new System.Drawing.Size(143, 22);
+            this.nudPort.Size = new System.Drawing.Size(107, 20);
             this.nudPort.TabIndex = 2;
             this.nudPort.Value = new decimal(new int[] {
-            3333,
+            55555,
             0,
             0,
             0});
@@ -81,9 +84,10 @@
             // cbPlay
             // 
             this.cbPlay.AutoSize = true;
-            this.cbPlay.Location = new System.Drawing.Point(4, 34);
+            this.cbPlay.Location = new System.Drawing.Point(3, 28);
+            this.cbPlay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbPlay.Name = "cbPlay";
-            this.cbPlay.Size = new System.Drawing.Size(57, 21);
+            this.cbPlay.Size = new System.Drawing.Size(46, 17);
             this.cbPlay.TabIndex = 3;
             this.cbPlay.Text = "Play";
             this.cbPlay.UseVisualStyleBackColor = true;
@@ -92,9 +96,10 @@
             // cbRemote
             // 
             this.cbRemote.AutoSize = true;
-            this.cbRemote.Location = new System.Drawing.Point(3, 61);
+            this.cbRemote.Location = new System.Drawing.Point(2, 50);
+            this.cbRemote.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbRemote.Name = "cbRemote";
-            this.cbRemote.Size = new System.Drawing.Size(135, 21);
+            this.cbRemote.Size = new System.Drawing.Size(106, 17);
             this.cbRemote.TabIndex = 4;
             this.cbRemote.Text = "Connect Remote";
             this.cbRemote.UseVisualStyleBackColor = true;
@@ -103,9 +108,10 @@
             // cbMboxServer
             // 
             this.cbMboxServer.AutoSize = true;
-            this.cbMboxServer.Location = new System.Drawing.Point(4, 153);
+            this.cbMboxServer.Location = new System.Drawing.Point(3, 124);
+            this.cbMboxServer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbMboxServer.Name = "cbMboxServer";
-            this.cbMboxServer.Size = new System.Drawing.Size(106, 21);
+            this.cbMboxServer.Size = new System.Drawing.Size(82, 17);
             this.cbMboxServer.TabIndex = 5;
             this.cbMboxServer.Text = "Start Server";
             this.cbMboxServer.UseVisualStyleBackColor = true;
@@ -113,7 +119,7 @@
             // 
             // instrumentPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this.cbMboxServer);
@@ -122,8 +128,9 @@
             this.Controls.Add(this.nudPort);
             this.Controls.Add(this.tbIp);
             this.Controls.Add(this.cbxType);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "instrumentPanel";
-            this.Size = new System.Drawing.Size(146, 177);
+            this.Size = new System.Drawing.Size(110, 144);
             this.Load += new System.EventHandler(this.instrumentPanel_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudPort)).EndInit();
             this.ResumeLayout(false);

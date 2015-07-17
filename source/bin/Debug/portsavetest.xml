@@ -1,0 +1,8 @@
+<song>
+  <instruments>
+    <instrument ip="" port="33333" local="False" flat="False" type="standard" />
+  </instruments>
+  <Sections>
+    <section name="" instrumentID="0" startTime="0" />
+  </Sections>
+</song>

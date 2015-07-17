@@ -169,12 +169,14 @@ namespace midiKeyboarder
             if (cbxOutputDevices.Items.Count == 0)
                 cbConnectOutput.Enabled = false;
             System.Threading.Thread pt = new System.Threading.Thread(playThread);
+            pt.Name = "Play Render Thread";
             pt.Start();
 
         }
 
         void playThread(object o)
         {
+            System.Diagnostics.Trace.WriteLine("PlayThread started with id " + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
             while (!Program.killAllThreads)
             {
                 playTimer_Tick(null, null);
@@ -353,6 +355,9 @@ namespace midiKeyboarder
         {
             if (selectedInstrument < 0)
                 return;
+            if (MessageBox.Show("Are you sure you want to delete this instrument?", "Delete instrument", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.No)
+                return;
+            
             var ip = selectInstrument(selectedInstrument);
             instruments.RemoveAt(selectedInstrument);
             sections.RemoveAt(selectedInstrument);
@@ -436,11 +441,14 @@ namespace midiKeyboarder
 
         protected override void OnClosed(EventArgs e)
         {
+            Program.killAllThreads = true;
+            if (recordingClock != null)
+                recordingClock.Stop();
             standardDriver.stop();
             bassDriver.stop();
             fluteDriver.stop();
             drumDriver.stop();
-            Program.killAllThreads = true;
+          
 
             base.OnClosed(e);
             Application.Exit();
@@ -505,6 +513,7 @@ namespace midiKeyboarder
             if (monitor == null)
                 return;
             System.Threading.Thread playthread = new System.Threading.Thread(monitorPlay);
+            playthread.Name = "Monitor Thread";
             playthread.Start(n);
         }
         void monitorPlay(object o)
