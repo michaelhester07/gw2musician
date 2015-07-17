@@ -28,7 +28,7 @@ namespace midiKeyboarder
 
         public void play(string note)
         {
-            if (local)
+            if (local && gw2KeyDriver != null)
                 gw2KeyDriver.play(note);
             else if (connected)
             {

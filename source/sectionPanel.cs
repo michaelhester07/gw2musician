@@ -323,11 +323,17 @@ namespace midiKeyboarder
 
             g.DrawLine(Pens.Red, timelinex, 0, timelinex, renderPlane.Height);
             g.Dispose();
-            renderPlane.Image = (Bitmap)temp.Clone();
-
+            //renderPlane.Image = (Bitmap)temp.Clone();
+            updatePlaneImageDelegate del = new updatePlaneImageDelegate(updatePlaneImage);
+            this.BeginInvoke(del, (Bitmap)temp.Clone());
 
         }
+        delegate void updatePlaneImageDelegate(Bitmap b);
+        void updatePlaneImage(Bitmap b)
+        {
+            renderPlane.Image = b;
 
+        }
         public section.note pickNote(MouseEventArgs e)
         {
             List<RectangleF> notes = new List<RectangleF>();

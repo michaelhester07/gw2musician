@@ -30,7 +30,7 @@ namespace midiKeyboarder
        public static KeyboardDriver fluteDriver = new KeyboardDriver();
        public static KeyboardDriver drumDriver = new KeyboardDriver();
 
-
+       bool killPlayThread = false;
         public Form1()
         {
             InitializeComponent();
@@ -160,10 +160,19 @@ namespace midiKeyboarder
                 cbConnectInput.Enabled = false;
             if (cbxOutputDevices.Items.Count == 0)
                 cbConnectOutput.Enabled = false;
-            
+            System.Threading.Thread pt = new System.Threading.Thread(playThread);
+            pt.Start();
 
         }
 
+        void playThread(object o)
+        {
+            while(!killPlayThread)
+            {
+                playTimer_Tick(null, null);
+            }
+
+        }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
            
@@ -222,6 +231,11 @@ namespace midiKeyboarder
         {
             if (cbConnectOutput.Checked)
             {
+                if(cbxOutputDevices.SelectedIndex <0)
+                {
+                    cbConnectOutput.Checked = false;
+                    return;
+                }
                 monitor = Midi.OutputDevice.InstalledDevices[cbxOutputDevices.SelectedIndex];
                 monitor.Open();
                 monitor.SendProgramChange(Midi.Channel.Channel1, Midi.Instrument.AcousticGrandPiano);
@@ -231,9 +245,12 @@ namespace midiKeyboarder
             }
             else
             {
-                monitor.SilenceAllNotes();
-                monitor.Close();
-                monitor = null;
+                if (monitor != null)
+                {
+                    monitor.SilenceAllNotes();
+                    monitor.Close();
+                    monitor = null;
+                }
             }
             if (inputDriver != null && cbConnectInput.Checked)
                 inputDriver.setMonitor(monitor);
@@ -343,6 +360,7 @@ namespace midiKeyboarder
         float lastmidiRead = 0;
         Midi.Clock recordingClock;
        public  int timesig = 4;
+       delegate void empty();
         public void renderSections()
         {
             foreach(Control c in instrumentSectionList.Controls)
@@ -352,22 +370,32 @@ namespace midiKeyboarder
                     sp.drawSection(time, scrollTime, timesig);
 
             }
+            if (!playing)
+            {
+                empty e = new empty(tickLabelUpdate);
+                this.BeginInvoke(e);
+            }
+            
+        }
+        void tickLabelUpdate()
+        {
             tickLabel.Text = string.Format("{0}.{1}.{2}", (int)(time / timesig) + 1, (int)(time % timesig) + 1, Math.Round(time - (int)time, 2) * 100);
 
         }
-
         private void btnRecord_Click(object sender, EventArgs e)
         {
             if (!recording)
             {
                 btnSeekStart.Image = Properties.Resources.stop;
-                playing = true;
-                recording = true;
+               
                 recordingClock = new Midi.Clock(float.Parse(tbBPM.Text));
                 lastmidiRead = 0;
                // time -= 4;
                 recordingClock.Start();
-                playTimer.Start();
+               // playTimer.Start();
+                recording = true;
+                playing = true;
+              
             }
             else
                 recording = false;
@@ -386,11 +414,12 @@ namespace midiKeyboarder
 
             lastmidiRead = 0;
             btnSeekStart.Image = Properties.Resources.stop;
-            playing = true;
+          
             recordingClock = new Midi.Clock(float.Parse(tbBPM.Text));
             recordingClock.Start();
-            playTimer.Start();
+          //  playTimer.Start();
             monitorNotesOn.Clear();
+            playing = true;
         }
 
         protected override void OnClosed(EventArgs e)
@@ -523,6 +552,8 @@ namespace midiKeyboarder
                     scrollTime = time - renderRange * 2;
 
                 renderSections();
+                empty del = new empty(tickLabelUpdate);
+                this.BeginInvoke(del);
                 if(recording)
                 {
                     foreach (var note in notesOn)
