@@ -33,7 +33,7 @@ namespace midiKeyboarder
                keybdx = new InputManager.VirtualKeyboard();
                keyQueue = new Queue<midikey>();
                kill = false;
-                keythreadx = new System.Threading.Thread(keythread);
+                keythreadx = new System.Threading.Thread(keythread2);
                 keythreadx.Name = "pc keyboard output thread";
                keythreadx.Start();
                started = true;
@@ -58,9 +58,9 @@ namespace midiKeyboarder
             int o;
             Keys code;
             keyToCode(outnote, out code, out o);
-             int doctave = setOctave(o, flute,bass);
+            // int doctave = setOctave(o, flute,bass);
 
-                    queueKeyPress(code, doctave);
+                    queueKeyPress(code, o);
 
 
 
@@ -70,11 +70,14 @@ namespace midiKeyboarder
 
         int setOctave(int o, bool flute, bool bass)
         {
-
+            
             if (flute)
             {
-                if((o == 4 && octave == 5) || (o == 5 && octave == 4))
-                    queueKeyPress(Keys.D9, 30);
+                if ((o == 4 && octave == 5) || (o == 5 && octave == 4))
+                {
+                    octave = o;
+                    return -1;
+                }
                 octave = o;
                 return 0;
             }
@@ -218,6 +221,7 @@ namespace midiKeyboarder
         public struct midikey
         {
             public int deltaOctave;
+            public int noteOctave;
             public Keys k;
             public static midikey None
             { 
@@ -231,6 +235,156 @@ namespace midiKeyboarder
             }
 
         }
+
+        void keythread2(object o)
+        {
+            System.Diagnostics.Trace.WriteLine("Keythread started with id " + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
+
+            Stack<midikey> low = new Stack<midikey>();
+            Stack<midikey> med = new Stack<midikey>();
+            Stack<midikey> high = new Stack<midikey>();
+            Stack<Stack<midikey>> playOrder = new Stack<Stack<midikey>>(); //yo dog i heard you like stacks
+            while (!kill && !Program.killAllThreads)
+            {
+                if (Program.killAllThreads)
+                    return;
+                midikey k = midikey.None;
+                lock (locker)
+                {   //sort the notes in this frame into their octaves
+                    while (keyQueue.Count > 0)
+                    {
+                        k = keyQueue.Dequeue();
+                        if (k.noteOctave == 1 || k.noteOctave == 3)
+                            low.Push(k);
+                        if (k.noteOctave == 2 || k.noteOctave == 4)
+                            med.Push(k);
+                        if( k.noteOctave == 5)
+                        {
+                            high.Push(k);
+                        }
+                    }
+                   // else
+                     //   k = midikey.None;
+
+
+                }
+                if (low.Count !=0 || med.Count != 0 || high.Count != 0)
+                {
+                    if (low.Count != 0 && med.Count != 0 && high.Count != 0)
+                    {
+                        //this frame has notes from all 3 octaves.  The play order depends on the current octave
+                        if (octave == 4 || octave == 3)
+                        {
+                            playOrder.Push(high);
+
+                            playOrder.Push(med);
+                            playOrder.Push(low);
+
+                        }
+                        if (octave == 5)
+                        {
+                            playOrder.Push(low);
+                            playOrder.Push(med);
+
+                            playOrder.Push(high);
+                        }
+                    }
+                    else if (low.Count != 0 && med.Count != 0)
+                    {
+                        if (octave == 5 || octave == 4 || octave == 2)
+                        {
+                            playOrder.Push(low);
+                            playOrder.Push(med); //closer octave first
+
+                        }
+                        if (octave == 1 || octave == 3)
+                        {
+                            playOrder.Push(low);
+                            playOrder.Push(med); //closer octave first
+
+                        }
+                    }
+                    else if (low.Count != 0 && high.Count != 0)
+                    {
+                        if (octave == 1 || octave == 3 || octave == 4)
+                        {
+                            playOrder.Push(high);
+                            playOrder.Push(low);
+                            //closer octave first
+
+                        }
+                        if (octave == 5 || octave == 2)
+                        {
+                            playOrder.Push(low);
+                            playOrder.Push(high); //closer octave first
+
+                        }
+                    }
+                    else if (med.Count != 0 && high.Count != 0)
+                    {
+                        if (octave == 1 || octave == 3 || octave == 4)
+                        {
+                            playOrder.Push(high);
+                            playOrder.Push(med);
+                            //closer octave first
+
+                        }
+                        if (octave == 5 || octave == 2)
+                        {
+                            playOrder.Push(med);
+                            playOrder.Push(high); //closer octave first
+
+                        }
+                    }
+                    else if (low.Count != 0)
+                        playOrder.Push(low);
+                    else if (med.Count != 0)
+                        playOrder.Push(med);
+                    else if (high.Count != 0)
+                        playOrder.Push(high);
+
+
+
+                    foreach(var notelist in playOrder)
+                        foreach (var kx in notelist)
+                        {
+                            int deltaOctave = kx.noteOctave - octave;
+                            //add a pre-delay if octave changing since the last key
+                            System.Diagnostics.Trace.WriteLine("doctave " + deltaOctave.ToString());
+                            if (deltaOctave != 0)
+                                System.Threading.Thread.Sleep(75);
+                            while (deltaOctave < 0)
+                            {
+                                InputManager.Keyboard.KeyPress(Keys.D9, 25);
+                                System.Threading.Thread.Sleep(80);
+                                octave--;
+                                deltaOctave++;
+                            }
+                            while (deltaOctave > 0)
+                            {
+                                if(flute)
+                                    InputManager.Keyboard.KeyPress(Keys.D9, 25);
+                                else
+                                    InputManager.Keyboard.KeyPress(Keys.D0, 25);
+                                System.Threading.Thread.Sleep(80);
+                                octave++;
+                                deltaOctave--;
+                            }
+                            //InputManager.Keyboard.KeyPress(k, 50);
+
+
+
+                            InputManager.Keyboard.KeyPress(kx.k, 25);
+                        }
+                }
+                // if (k == Keys.D9 || k == Keys.D0)
+                //   System.Threading.Thread.Sleep(60);
+                //else
+                   System.Threading.Thread.Sleep(60); //roughly 35ms pulse.  At 120bpm this is faster than 16th notes  Longer than the keypress interval as well
+
+            }
+        }
+
 
         void keythread(object o)
         {
