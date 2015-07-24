@@ -25,6 +25,7 @@ namespace midiKeyboarder
        public string targetKey{get;set;}
        bool started = false;
        System.Threading.Thread keythreadx;
+       System.Diagnostics.Stopwatch smartWatch = new System.Diagnostics.Stopwatch();
        public void start()
        {
            if (!started)
@@ -33,12 +34,20 @@ namespace midiKeyboarder
                keybdx = new InputManager.VirtualKeyboard();
                keyQueue = new Queue<midikey>();
                kill = false;
-                keythreadx = new System.Threading.Thread(keythread2);
+                keythreadx = new System.Threading.Thread(keythread);
                 keythreadx.Name = "pc keyboard output thread";
                keythreadx.Start();
                started = true;
+               smartWatch.Start();
+               //InputManager.MouseHook.InstallHook();
+               //InputManager.MouseHook.MouseMove += MouseHook_MouseMove;
            }
 
+       }
+
+       void MouseHook_MouseMove(MouseHook.POINT ptLocat)
+       {
+           System.Diagnostics.Trace.WriteLine("mousemove " + ptLocat.x.ToString() + "," + ptLocat.y);
        }
        public void stop()
        {
@@ -58,9 +67,9 @@ namespace midiKeyboarder
             int o;
             Keys code;
             keyToCode(outnote, out code, out o);
-            // int doctave = setOctave(o, flute,bass);
+             int doctave = setOctave(o, flute,bass);
 
-                    queueKeyPress(code, o);
+                    queueKeyPress(code, doctave);
 
 
 
@@ -183,19 +192,22 @@ namespace midiKeyboarder
 
 
        
-        void keyToCode(string musicKey, out Keys code, out int octave)
+        void keyToCode(string musicKey, out Keys code, out int coctave)
         {
             //C3
             musicKey = musicKey.Replace("Sharp", "");
-            octave = int.Parse("" + musicKey[1]);
+            coctave = int.Parse("" + musicKey[1]);
             int codekey = key.IndexOf(musicKey[0]);
           
             switch (codekey)
             {
                 case 0:
                     code =  Keys.D1;
-                    if (octave == 6)
+                    if (coctave == octave + 1)
+                    {
                         code = Keys.D8;
+                        coctave = octave;
+                    }
                     break;
                 case 1:
                     code =  Keys.D2; break;
@@ -235,7 +247,23 @@ namespace midiKeyboarder
             }
 
         }
-
+       void d9()
+        {
+             InputManager.Keyboard.KeyPress(Keys.D9, 15);
+            //InputManager.Mouse.Move(1180, 1040);
+            //InputManager.Mouse.PressButton(Mouse.MouseKeys.Left, 15);
+        }
+       void d0()
+       {
+            InputManager.Keyboard.KeyPress(Keys.D0, 15);
+           //InputManager.Mouse.Move(1240, 1040);
+          // InputManager.Mouse.PressButton(Mouse.MouseKeys.Left, 15);
+       }
+       void delay()
+       {
+           System.Diagnostics.Trace.WriteLine("d");
+           System.Threading.Thread.Sleep(80);
+       }
         void keythread2(object o)
         {
             System.Diagnostics.Trace.WriteLine("Keythread started with id " + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
@@ -249,17 +277,23 @@ namespace midiKeyboarder
                 if (Program.killAllThreads)
                     return;
                 midikey k = midikey.None;
+
+                low.Clear();
+                med.Clear();
+                high.Clear();
+                playOrder.Clear();
                 lock (locker)
                 {   //sort the notes in this frame into their octaves
                     while (keyQueue.Count > 0)
                     {
                         k = keyQueue.Dequeue();
-                        if (k.noteOctave == 1 || k.noteOctave == 3)
+                        if (k.deltaOctave == 1 || k.deltaOctave == 3)
                             low.Push(k);
-                        if (k.noteOctave == 2 || k.noteOctave == 4)
+                        if (k.deltaOctave == 2 || k.deltaOctave == 4)
                             med.Push(k);
-                        if( k.noteOctave == 5)
+                        if (k.deltaOctave == 5 || k.deltaOctave == 6)
                         {
+                            if (k.deltaOctave == 6) k.deltaOctave = 5;
                             high.Push(k);
                         }
                     }
@@ -345,46 +379,61 @@ namespace midiKeyboarder
 
 
 
-                    foreach(var notelist in playOrder)
+                    while (playOrder.Count > 0)
+                    {
+                        var notelist = playOrder.Pop();
                         foreach (var kx in notelist)
                         {
-                            int deltaOctave = kx.noteOctave - octave;
+                            int deltaOctave = kx.deltaOctave - octave;
                             //add a pre-delay if octave changing since the last key
                             System.Diagnostics.Trace.WriteLine("doctave " + deltaOctave.ToString());
                             if (deltaOctave != 0)
-                                System.Threading.Thread.Sleep(75);
+                                delay();
                             while (deltaOctave < 0)
                             {
-                                InputManager.Keyboard.KeyPress(Keys.D9, 25);
-                                System.Threading.Thread.Sleep(80);
+                                //InputManager.Keyboard.KeyPress(Keys.D9, 25);
+                                d9();
                                 octave--;
                                 deltaOctave++;
+                                if (deltaOctave != 0)
+                                    delay();
                             }
                             while (deltaOctave > 0)
                             {
-                                if(flute)
-                                    InputManager.Keyboard.KeyPress(Keys.D9, 25);
+                                if (flute)
+                                    // InputManager.Keyboard.KeyPress(Keys.D9, 25);
+                                    d9();
                                 else
-                                    InputManager.Keyboard.KeyPress(Keys.D0, 25);
-                                System.Threading.Thread.Sleep(80);
+                                    // InputManager.Keyboard.KeyPress(Keys.D0, 25);
+                                    d0();
+                                
                                 octave++;
                                 deltaOctave--;
+                                if (deltaOctave != 0)
+                                    delay();
                             }
                             //InputManager.Keyboard.KeyPress(k, 50);
 
 
-
-                            InputManager.Keyboard.KeyPress(kx.k, 25);
+                            System.Diagnostics.Trace.WriteLine("p");
+                            InputManager.Keyboard.KeyPress(kx.k, 10);
                         }
+                    }
                 }
                 // if (k == Keys.D9 || k == Keys.D0)
                 //   System.Threading.Thread.Sleep(60);
                 //else
-                   System.Threading.Thread.Sleep(60); //roughly 35ms pulse.  At 120bpm this is faster than 16th notes  Longer than the keypress interval as well
+                   System.Threading.Thread.Sleep(15); //roughly 35ms pulse.  At 120bpm this is faster than 16th notes  Longer than the keypress interval as well
 
             }
         }
-
+        double lastTick = 0;
+       void smartSleep()
+        {
+            System.Diagnostics.Trace.WriteLine("lasttick - ticks " + (lastTick - smartWatch.Elapsed.TotalSeconds).ToString());
+            while (lastTick - smartWatch.Elapsed.TotalSeconds > 0) System.Threading.Thread.Sleep(0);
+            System.Diagnostics.Trace.WriteLine("lasttick - ticks " + (lastTick - smartWatch.Elapsed.TotalSeconds).ToString());
+        }
 
         void keythread(object o)
         {
@@ -407,26 +456,36 @@ namespace midiKeyboarder
                 {
                     //add a pre-delay if octave changing since the last key
                     System.Diagnostics.Trace.WriteLine("doctave " + k.deltaOctave.ToString());
+                    bool octaveChange = false;
                     if (k.deltaOctave != 0)
-                        System.Threading.Thread.Sleep(75);
+                    {
+                     //   System.Threading.Thread.Sleep(75);
+                        octaveChange = true;
+                        smartSleep();
+                        lastTick = smartWatch.Elapsed.TotalSeconds +.080;
+                    }
                     while (k.deltaOctave < 0)
                     {
+                        smartSleep();
                         InputManager.Keyboard.KeyPress(Keys.D9, 25);
-                        System.Threading.Thread.Sleep(80);
+
+                        lastTick = smartWatch.Elapsed.TotalSeconds + .080;
                         k.deltaOctave++;
                     }
                     while (k.deltaOctave > 0)
                     {
+                        smartSleep();
                         InputManager.Keyboard.KeyPress(Keys.D0, 25);
-                        System.Threading.Thread.Sleep(80);
+
+                        lastTick = smartWatch.Elapsed.TotalSeconds + .080;
                         k.deltaOctave--;
                     }
                     //InputManager.Keyboard.KeyPress(k, 50);
 
-
-
+                    if(octaveChange)
+                        smartSleep();
                     InputManager.Keyboard.KeyPress(k.k, 25);
-
+                    lastTick = smartWatch.Elapsed.TotalSeconds + .080;
                 }
                 // if (k == Keys.D9 || k == Keys.D0)
                 //   System.Threading.Thread.Sleep(60);

@@ -46,7 +46,7 @@ namespace midiKeyboarder
 
         private void keybd_ControlChange(ControlChangeMessage msg)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         public void stop()
         {

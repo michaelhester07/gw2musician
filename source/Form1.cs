@@ -135,16 +135,42 @@ namespace midiKeyboarder
 
             if (!recording )
             {
-                int oct = getNoteOctave(note);
-                if (selectedInstrument >= 0 && oct >= 3)
+                if (cbDedicatedOctaveMode.Checked && instruments.Count >= 3)
                 {
-                    instruments[selectedInstrument].play(note);
+
+                     int oct = getNoteOctave(note);
+
+                     if (oct <= 2)
+                     {
+                         int bass = findBass();
+                         if (bass >= 0)
+                             instruments[bass].play(note);
+                     }
+                     else
+                     {
+                         if (oct >= 5)
+                             instruments[0].play(note);
+                         if(oct == 4)
+                         instruments[1].play(note);
+                         if (oct == 3)
+                             instruments[2].play(note);
+                     }
+
+
                 }
-                if (oct <= 2)
+                else
                 {
-                    int bass = findBass();
-                    if (bass >= 0)
-                        instruments[bass].play(note);
+                    int oct = getNoteOctave(note);
+                    if (selectedInstrument >= 0 && oct >= 3)
+                    {
+                        instruments[selectedInstrument].play(note);
+                    }
+                    if (oct <= 2)
+                    {
+                        int bass = findBass();
+                        if (bass >= 0)
+                            instruments[bass].play(note);
+                    }
                 }
             }
 
@@ -207,6 +233,11 @@ namespace midiKeyboarder
 
         private void cbConnectInput_CheckedChanged(object sender, EventArgs e)
         {
+            if(cbxInputDevices.SelectedIndex == -1)
+            {
+                cbConnectInput.Checked = false;
+                return;
+            }
             if(cbConnectInput.Checked)
             {
                 inputDriver = new MidiKeyboardInputDriver();
@@ -736,6 +767,12 @@ namespace midiKeyboarder
             }
             renderSections();
         }
-        
+
+        private void cbDedicatedOctaveMode_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+      
     }
 }
