@@ -66,12 +66,47 @@ namespace midiKeyboarder
             
             int o;
             Keys code;
+            bool sharp = outnote.Contains("Sharp");
             keyToCode(outnote, out code, out o);
              int doctave = setOctave(o, flute,bass);
-
+            if(!sharp)
                     queueKeyPress(code, doctave);
+            else
+            {
+                string sharpnote = outnote.TrimEnd('1', '2', '3', '4', '5', '6');
+                switch(sharpnote)
+                {
+                    case "CSharp":
+                        queueKeyPress(Keys.D1, doctave);
+                        queueKeyPress(Keys.D1, 0);
+                        queueKeyPress(Keys.D2, 0);
+                        break;
+                    case "DSharp":
+                        queueKeyPress(Keys.D2, doctave);
+                        queueKeyPress(Keys.D2, 0);
+                        queueKeyPress(Keys.D3, 0);
+                        break;
+                    case "FSharp":
+                        queueKeyPress(Keys.D3, doctave);
+                        queueKeyPress(Keys.D3, 0);
+                        queueKeyPress(Keys.D4, 0);
+                        break;
+                    case "GSharp":
+                        queueKeyPress(Keys.D4, doctave);
+                        queueKeyPress(Keys.D4, 0);
+                        queueKeyPress(Keys.D5, 0);
+                        break;
+                    case "ASharp":
+                        queueKeyPress(Keys.D5, doctave);
+                        queueKeyPress(Keys.D5, 0);
+                        queueKeyPress(Keys.D6, 0);
+                        break;
 
+                }
 
+            }
+
+            
 
         }
 
@@ -430,6 +465,8 @@ namespace midiKeyboarder
         double lastTick = 0;
        void smartSleep()
         {
+            if (Form1.dedicatedOctaveModeActive)
+                return; //zero delays!
             System.Diagnostics.Trace.WriteLine("lasttick - ticks " + (lastTick - smartWatch.Elapsed.TotalSeconds).ToString());
             while (lastTick - smartWatch.Elapsed.TotalSeconds > 0) System.Threading.Thread.Sleep(0);
             System.Diagnostics.Trace.WriteLine("lasttick - ticks " + (lastTick - smartWatch.Elapsed.TotalSeconds).ToString());

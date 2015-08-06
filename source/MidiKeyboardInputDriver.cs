@@ -50,9 +50,14 @@ namespace midiKeyboarder
         }
         public void stop()
         {
-            keybd.RemoveAllEventHandlers();
-            keybd.StopReceiving();
-            keybd.Close();
+            try
+            {
+                keybd.RemoveAllEventHandlers();
+                keybd.StopReceiving();
+                keybd.Close();
+            }
+            catch
+            { }
         }
 
         void keybd_NoteOff(NoteOffMessage msg)

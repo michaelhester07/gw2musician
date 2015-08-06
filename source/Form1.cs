@@ -148,12 +148,28 @@ namespace midiKeyboarder
                      }
                      else
                      {
-                         if (oct >= 5)
-                             instruments[0].play(note);
-                         if(oct == 4)
-                         instruments[1].play(note);
-                         if (oct == 3)
-                             instruments[2].play(note);
+                         if (cbFullRange.Checked)
+                         {
+                             if (oct >= 4)
+                                 instruments[0].play(note);
+                             if (oct == 3)
+                                 instruments[1].play(note);
+                             // if (oct == 2)
+                             //  instruments[2].play(note);
+
+                         }
+                         else
+                        
+
+                          {
+                             if (oct >= 5)
+                                 instruments[0].play(note);
+                             if (oct == 4)
+                                 instruments[1].play(note);
+                             if (oct == 3)
+                                 instruments[2].play(note);
+                         }
+                            
                      }
 
 
@@ -770,9 +786,9 @@ namespace midiKeyboarder
 
         private void cbDedicatedOctaveMode_CheckedChanged(object sender, EventArgs e)
         {
-
+            dedicatedOctaveModeActive = cbDedicatedOctaveMode.Checked;
         }
-
+        public static bool dedicatedOctaveModeActive = false;
       
     }
 }
