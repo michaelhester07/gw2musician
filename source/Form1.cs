@@ -118,65 +118,69 @@ namespace midiKeyboarder
             return -1;
         }
         List<section.note> notesOn = new List<section.note>();
-        void inputDriver_NoteOnString(string note)
+        void inputDriver_NoteOnString(string xnote)
         {
+            string note = xnote + "+";
+            toggleNote(note);
 
-            if(recording)
+        }
+
+        void toggleNote(string note)
+        {
+            if (recording)
             {
                 if (selectedInstrument >= 0)
                 {
 
-                  var n =   sections[selectedInstrument].addNote(note, time, 1/16.0f);
-                  notesOn.Add(n);
+                    var n = sections[selectedInstrument].addNote(note, time, 1 / 16.0f);
+                    notesOn.Add(n);
 
                 }
 
             }
 
-            if (!recording )
+            if (!recording)
             {
                 if (cbDedicatedOctaveMode.Checked && instruments.Count >= 3)
                 {
 
-                     int oct = getNoteOctave(note);
+                    int oct = getNoteOctave(note.TrimEnd('-', '+'));
 
-                     if (oct <= 2)
-                     {
-                         int bass = findBass();
-                         if (bass >= 0)
-                             instruments[bass].play(note);
-                     }
-                     else
-                     {
-                         if (cbFullRange.Checked)
-                         {
-                             if (oct >= 4)
-                                 instruments[0].play(note);
-                             if (oct == 3)
-                                 instruments[1].play(note);
-                             // if (oct == 2)
-                             //  instruments[2].play(note);
+                    if (oct <= 2)
+                    {
+                        int bass = findBass();
+                        if (bass >= 0)
+                            instruments[bass].play(note);
+                    }
+                    else
+                    {
+                        if (cbFullRange.Checked)
+                        {
+                            if (oct >= 4)
+                                instruments[0].play(note);
+                            if (oct == 3)
+                                instruments[1].play(note);
+                            // if (oct == 2)
+                            //  instruments[2].play(note);
 
-                         }
-                         else
-                        
+                        }
+                        else
+                        {
+                            if (oct >= 5)
+                                instruments[0].play(note);
+                            if (oct == 4)
+                                instruments[1].play(note);
+                            if (oct == 3)
+                                instruments[2].play(note);
+                        }
 
-                          {
-                             if (oct >= 5)
-                                 instruments[0].play(note);
-                             if (oct == 4)
-                                 instruments[1].play(note);
-                             if (oct == 3)
-                                 instruments[2].play(note);
-                         }
-                            
-                     }
+                    }
 
 
                 }
                 else
                 {
-                    int oct = getNoteOctave(note);
+                    int oct = getNoteOctave(note.TrimEnd('-', '+'));
                     if (selectedInstrument >= 0 && oct >= 3)
                     {
                         instruments[selectedInstrument].play(note);
@@ -189,7 +193,6 @@ namespace midiKeyboarder
                     }
                 }
             }
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -284,6 +287,7 @@ namespace midiKeyboarder
                     foreach (var n in removeme)
                         notesOn.Remove(n);
             }
+            toggleNote(note + "-");
         }
 
         private void cbConnectOutput_CheckedChanged_1(object sender, EventArgs e)
@@ -789,6 +793,11 @@ namespace midiKeyboarder
             dedicatedOctaveModeActive = cbDedicatedOctaveMode.Checked;
         }
         public static bool dedicatedOctaveModeActive = false;
-      
+        public static bool fullRange = false;
+
+        private void cbFullRange_CheckedChanged(object sender, EventArgs e)
+        {
+            fullRange = cbFullRange.Checked;
+        }
     }
 }

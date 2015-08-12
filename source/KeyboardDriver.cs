@@ -61,55 +61,77 @@ namespace midiKeyboarder
             //note looks like this
             //"ASharp4"
             //"G4"
-            Pitch outpitch;
-            string outnote = transpose(note,targetKey, transposeDirection,flat, out outpitch);
-            
-            int o;
-            Keys code;
-            bool sharp = outnote.Contains("Sharp");
-            keyToCode(outnote, out code, out o);
-             int doctave = setOctave(o, flute,bass);
-            if(!sharp)
-                    queueKeyPress(code, doctave);
+           //dedicated octave mode: no need to transpose.  we can also treat the keyboard naturally and allow for longer notes
+            //if the instrument supports them.
+            //Supports keydown and keyup
+            if(Form1.dedicatedOctaveModeActive && !Form1.fullRange)
+            {
+                int o;
+                Keys code;
+                bool sharp = note.Contains("Sharp");
+              
+                keyToCode(note, out code, out o);
+                int doctave = setOctave(o, flute, bass);
+                if (note.Contains("+"))
+                    InputManager.Keyboard.KeyDown(code);
+                if (note.Contains("-"))
+                    InputManager.Keyboard.KeyUp(code);
+
+            }
             else
             {
-                string sharpnote = outnote.TrimEnd('1', '2', '3', '4', '5', '6');
-                switch(sharpnote)
+                if (note.Contains("-"))
+                    return;
+                Pitch outpitch;
+                string outnote = transpose(note, targetKey, transposeDirection, flat, out outpitch);
+
+                int o;
+                Keys code;
+                bool sharp = outnote.Contains("Sharp");
+                keyToCode(outnote, out code, out o);
+                int doctave = setOctave(o, flute, bass);
+                if (!sharp)
+                    queueKeyPress(code, doctave);
+                else
                 {
-                    case "CSharp":
-                        queueKeyPress(Keys.D1, doctave);
-                        queueKeyPress(Keys.D1, 0);
-                        queueKeyPress(Keys.D2, 0);
-                        break;
-                    case "DSharp":
-                        queueKeyPress(Keys.D2, doctave);
-                        queueKeyPress(Keys.D2, 0);
-                        queueKeyPress(Keys.D3, 0);
-                        break;
-                    case "FSharp":
-                        queueKeyPress(Keys.D3, doctave);
-                        queueKeyPress(Keys.D3, 0);
-                        queueKeyPress(Keys.D4, 0);
-                        break;
-                    case "GSharp":
-                        queueKeyPress(Keys.D4, doctave);
-                        queueKeyPress(Keys.D4, 0);
-                        queueKeyPress(Keys.D5, 0);
-                        break;
-                    case "ASharp":
-                        queueKeyPress(Keys.D5, doctave);
-                        queueKeyPress(Keys.D5, 0);
-                        queueKeyPress(Keys.D6, 0);
-                        break;
+                    string sharpnote = outnote.TrimEnd('1', '2', '3', '4', '5', '6');
+                    switch (sharpnote)
+                    {
+                        case "CSharp":
+                            queueKeyPress(Keys.D1, doctave);
+                            queueKeyPress(Keys.D1, 0);
+                            queueKeyPress(Keys.D2, 0);
+                            break;
+                        case "DSharp":
+                            queueKeyPress(Keys.D2, doctave);
+                            queueKeyPress(Keys.D2, 0);
+                            queueKeyPress(Keys.D3, 0);
+                            break;
+                        case "FSharp":
+                            queueKeyPress(Keys.D3, doctave);
+                            queueKeyPress(Keys.D3, 0);
+                            queueKeyPress(Keys.D4, 0);
+                            break;
+                        case "GSharp":
+                            queueKeyPress(Keys.D4, doctave);
+                            queueKeyPress(Keys.D4, 0);
+                            queueKeyPress(Keys.D5, 0);
+                            break;
+                        case "ASharp":
+                            queueKeyPress(Keys.D5, doctave);
+                            queueKeyPress(Keys.D5, 0);
+                            queueKeyPress(Keys.D6, 0);
+                            break;
+
+                    }
 
                 }
-
             }
 
             
 
         }
-
+      
 
 
         int setOctave(int o, bool flute, bool bass)
@@ -231,6 +253,7 @@ namespace midiKeyboarder
         {
             //C3
             musicKey = musicKey.Replace("Sharp", "");
+            musicKey = musicKey.TrimEnd('+', '-');
             coctave = int.Parse("" + musicKey[1]);
             int codekey = key.IndexOf(musicKey[0]);
           
@@ -238,7 +261,7 @@ namespace midiKeyboarder
             {
                 case 0:
                     code =  Keys.D1;
-                    if (coctave == octave + 1)
+                    if (coctave == octave + 1 || coctave == 6)
                     {
                         code = Keys.D8;
                         coctave = octave;
@@ -465,7 +488,7 @@ namespace midiKeyboarder
         double lastTick = 0;
        void smartSleep()
         {
-            if (Form1.dedicatedOctaveModeActive)
+            if (Form1.dedicatedOctaveModeActive && !Form1.fullRange)
                 return; //zero delays!
             System.Diagnostics.Trace.WriteLine("lasttick - ticks " + (lastTick - smartWatch.Elapsed.TotalSeconds).ToString());
             while (lastTick - smartWatch.Elapsed.TotalSeconds > 0) System.Threading.Thread.Sleep(0);

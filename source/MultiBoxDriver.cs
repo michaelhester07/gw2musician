@@ -24,8 +24,9 @@ namespace midiKeyboarder
             xclient.Connect(new System.Net.IPEndPoint(addr, port));
             
         }
-        public bool sendMsg(string msg)
+        public bool sendMsg(string xmsg)
         {
+            string msg = xmsg + ";";
             if(xclient != null)
             {
                 if (xclient.Connected)
@@ -95,13 +96,16 @@ namespace midiKeyboarder
                     byte[] msg = new byte[256];
                     int len = client.GetStream().Read(msg, 0, 256);
                     if (msg[0] == 0) continue;
-                    smsg = ASCIIEncoding.ASCII.GetString(msg);
+                    
+                    smsg = ASCIIEncoding.ASCII.GetString(msg,0, len);
 
-                    System.Diagnostics.Trace.WriteLine("recv from server " + smsg);
+                    System.Diagnostics.Trace.WriteLine("recv1 from server " + smsg);
                     if (smsg != string.Empty)
                     {
-                        if (keybddriver != null)
-                            keybddriver.play(smsg);
+                        string[] notes = smsg.Split(new char[] {';'},  StringSplitOptions.RemoveEmptyEntries);
+                        foreach(string n in notes)
+                         if (keybddriver != null)
+                            keybddriver.play(n);
                     }
                 }
                 catch

@@ -40,6 +40,7 @@
             this.btnLoad = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbFullRange = new System.Windows.Forms.CheckBox();
             this.cbDedicatedOctaveMode = new System.Windows.Forms.CheckBox();
             this.cbMetronome = new System.Windows.Forms.CheckBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -63,7 +64,6 @@
             this.cbConnectInput = new System.Windows.Forms.CheckBox();
             this.cbxInputDevices = new System.Windows.Forms.ComboBox();
             this.playTimer = new System.Windows.Forms.Timer(this.components);
-            this.cbFullRange = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -188,6 +188,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1190, 92);
             this.panel1.TabIndex = 3;
+            // 
+            // cbFullRange
+            // 
+            this.cbFullRange.AutoSize = true;
+            this.cbFullRange.Location = new System.Drawing.Point(223, 30);
+            this.cbFullRange.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbFullRange.Name = "cbFullRange";
+            this.cbFullRange.Size = new System.Drawing.Size(142, 21);
+            this.cbFullRange.TabIndex = 6;
+            this.cbFullRange.Text = "Full Range 3 char";
+            this.cbFullRange.UseVisualStyleBackColor = true;
+            this.cbFullRange.CheckedChanged += new System.EventHandler(this.cbFullRange_CheckedChanged);
             // 
             // cbDedicatedOctaveMode
             // 
@@ -397,17 +409,6 @@
             // 
             this.playTimer.Interval = 10;
             this.playTimer.Tick += new System.EventHandler(this.playTimer_Tick);
-            // 
-            // cbFullRange
-            // 
-            this.cbFullRange.AutoSize = true;
-            this.cbFullRange.Location = new System.Drawing.Point(223, 30);
-            this.cbFullRange.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cbFullRange.Name = "cbFullRange";
-            this.cbFullRange.Size = new System.Drawing.Size(142, 21);
-            this.cbFullRange.TabIndex = 6;
-            this.cbFullRange.Text = "Full Range 3 char";
-            this.cbFullRange.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

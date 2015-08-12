@@ -105,7 +105,7 @@ namespace midiKeyboarder
                 //these are passed out for the sequencer
                 if (NoteOn != null)
                     NoteOn(msg);
-
+                System.Diagnostics.Trace.WriteLine("note speed " + msg.Velocity.ToString());
                 //for some midi devices they do the NoteOn message when you release instead of NoteOff
                 keysDown.Add(msg.Pitch);
             }
